@@ -10,4 +10,8 @@ public class Player {
 	public void displayDeck() {
 		myCards.displayCards();
 	}
+	
+	public void checkPlayable() {
+		
+	}
 }
