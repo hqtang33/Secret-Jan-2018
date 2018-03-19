@@ -1,18 +1,19 @@
 
 public class Card {
 	private String color;
-	private String type;
+	private String symbol;
 	
-	public Card(String color, String type) {
+	public Card(String color, String symbol) {
 		this.color = color;
-		this.type = type;
+		this.symbol = symbol;
 	}
 	
 	public String getColor() {
 		return this.color;
 	}
 	
-	public String getType() {
-		return this.type;
+	public String getSymbol() {
+		return this.symbol;
 	}
+	
 }
