@@ -4,8 +4,8 @@ import java.util.List;
 
 
 public class CardFactory {
-	private List<Card> Deck = new ArrayList<Card>();
-
+	private List<Card> Deck = new ArrayList<Card>();;
+	
 	public void initializeCards() {
 		String[] color = {"R","G","B","Y"};
 		String[] rank = {"1","2","3","4","5","6","7","8","9","0"};
@@ -32,10 +32,14 @@ public class CardFactory {
 		
 	}
 	
-	public Card drawCard() {
-		Card temp = Deck.get(0);
-		Deck.remove(0);
-		return temp;
+	public Card pop() {	
+		return Deck.remove(0);
+	}
+	
+	
+	
+	public void push(Card c) {
+		Deck.add(c);
 	}
 	
 	public void ShuffleCards() {

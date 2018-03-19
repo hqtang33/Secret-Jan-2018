@@ -7,4 +7,5 @@ public class Skip extends Card {
 		
 	}
 	
+
 }
