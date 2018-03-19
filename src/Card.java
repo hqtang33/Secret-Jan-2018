@@ -1,4 +1,3 @@
-
 public class Card {
 	private String color;
 	private String symbol;
@@ -33,5 +32,5 @@ public class Card {
 		System.out.println("Color: " + color);
 		System.out.println("Symbol: " + symbol);
 	}
-	
+			
 }
