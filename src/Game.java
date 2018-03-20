@@ -80,14 +80,12 @@ public class Game extends Application {
 			ImageView imageview = new ImageView(image);
 			imageview.setFitWidth(78);
 			imageview.setFitHeight(109);
-			// Button imgbtn = new Button(null, imageview);
-
+			Button imgbtn = new Button(null, imageview);
+			imgbtn.setId("img-btn");
 			StackPane card = new StackPane();
 			card.setPadding(new Insets(40, 10, 10, 10));
-			Button bt = new Button("Green " + i);
-			bt.setTranslateY(75);
-			bt.setId("img-btn");
-			card.getChildren().addAll(imageview, bt);
+
+			card.getChildren().addAll(imageview, imgbtn);
 			handCards.getChildren().add(card);
 		}
 		pile.setAlignment(Pos.CENTER);
@@ -101,5 +99,11 @@ public class Game extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	@Override
+    public void stop() throws Exception {
+        super.stop();
+        System.out.println("Inside stop() method! Destroy resources. Perform Cleanup.");
+    }
 
 }
