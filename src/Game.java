@@ -1,5 +1,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -17,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -32,28 +36,41 @@ public class Game extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
+		//Game
 		Deck cardDeck = new Deck();
 		Deck discardPile = new Deck();
 		cardDeck.initializeCards();
 		cardDeck.ShuffleCards();
 		discardPile.push(cardDeck.pop());
 		
-		BorderPane pane1 = new BorderPane();
-		pane1.setPrefSize(800, 600);
-		Scene scene = new Scene(pane1, 850, 600);
-		scene.getStylesheets().add("style.css");
-
-		Pane pane = new Pane();
-		pane.setPrefSize(800, 600);
-
+		String x = discardPile.getName(0);
 		
-
+		Player p1 = new Player();
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		
+		List<String> mylist = p1.cardList();
+		
+		
+		//GUI
+		BorderPane pane = new BorderPane();
+		pane.setPrefSize(800, 600);
+		pane.setStyle("-fx-background-color: rgba(6, 136, 148)");
+		Scene scene = new Scene(pane, 850, 600);
+		scene.getStylesheets().add("style.css");
+		
 		FlowPane handCards = new FlowPane(Orientation.HORIZONTAL);
 		handCards.setPrefWrapLength(700);
 		BorderPane.setMargin(handCards, new Insets(5, 30, 50, 30));
+		
 
-		TilePane pile = new TilePane();
-		pile.setPrefColumns(2);
+		VBox pile = new VBox();
+		pile.setSpacing(20);
 
 		FileInputStream deck_input = new FileInputStream(
 				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
@@ -61,20 +78,22 @@ public class Game extends Application {
 		ImageView deck_imgview = new ImageView(deck_img);
 		deck_imgview.setFitWidth(78);
 		deck_imgview.setFitHeight(109);
-		pile.getChildren().add(deck_imgview);
+		Button deck_btn = new Button(null, deck_imgview);
+		deck_btn.setId("img-btn");
+		pile.getChildren().add(deck_btn);
+		
 
 		FileInputStream pile_input = new FileInputStream(
-				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\r_1.png");
+				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\"+x+".png");
 		Image pile_img = new Image(pile_input);
 		ImageView pile_imgview = new ImageView(pile_img);
 		pile_imgview.setFitWidth(78);
 		pile_imgview.setFitHeight(109);
 		pile.getChildren().add(pile_imgview);
-		pile.setHgap(20);
-
-		for (int i = 0; i < 10; i++) {
+		
+		for(String s:mylist) {
 			FileInputStream inputstream = new FileInputStream(
-					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\b_" + i
+					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + s
 							+ ".png");
 			Image image = new Image(inputstream);
 			ImageView imageview = new ImageView(image);
@@ -82,18 +101,15 @@ public class Game extends Application {
 			imageview.setFitHeight(109);
 			Button imgbtn = new Button(null, imageview);
 			imgbtn.setId("img-btn");
-			StackPane card = new StackPane();
-			card.setPadding(new Insets(40, 10, 10, 10));
-
-			card.getChildren().addAll(imageview, imgbtn);
-			handCards.getChildren().add(card);
+			handCards.getChildren().add(imgbtn);
 		}
+
 		pile.setAlignment(Pos.CENTER);
 		handCards.setAlignment(Pos.CENTER);
-		pane1.setBottom(handCards);
-		pane1.setCenter(pile);
+		pane.setBottom(handCards);
+		pane.setCenter(pile);
+		BorderPane.setMargin(pile, new Insets(10,0,20,0));
 
-		
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("UNO Card GUI");
 		primaryStage.setScene(scene);

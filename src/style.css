@@ -1,14 +1,27 @@
 #img-btn {
-	-fx-background-color: rgba(255,255,255,0.1);
+	-fx-background-color: transparent;
 	-fx-background-radius: 5,5,4;
-	-fx-padding: 5 15 5 15;
+	-fx-padding: 15 25 15 25;
 	
 }
-
 #img-btn:hover {
-	-fx-background-color: rgba(122,122,122,0.5);
+	-fx-background-color: rgba(255,255,255,0.3);
 }
 
 #img-btn:pressed {
-	-fx-background-color: rgba(114,114,114,0.7);
+	-fx-background-color: rgba(255,255,255,0.6);
+}
+
+#card-playable {
+	-fx-background-color: rgba(255, 169, 22,0.1);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 15 25 15 25;
+}
+
+#card-playable:hover {
+	-fx-background-color: rgba(175, 117, 17,0.5);
+}
+
+#card-playable:pressed {
+	-fx-background-color: rgba(122, 82, 13,0.7);
 }

@@ -49,5 +49,10 @@ public class Deck {
 	public int length() {
 		return cardDeck.size();
 	}
+	
+	public String getName(int n) {
+		Card c = cardDeck.get(n);
+		return c.getColor() + "_" +c.getSymbol();
+	}
 
 }
