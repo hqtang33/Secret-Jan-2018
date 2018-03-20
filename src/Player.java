@@ -1,20 +1,20 @@
 public class Player {
 	private String name;
-	private CardFactory myCards = new CardFactory();
+	private Deck handCards = new Deck();
 
-	public void drawCard(CardFactory deck) {
-		myCards.push(deck.pop());
+	public void drawCard(Deck d) {
+		handCards.push(d.pop());
 	}
 
 	public void displayDeck() {
-		myCards.displayCards();
+		handCards.displayCards();
 	}
 	
-	public void checkPlayable(CardFactory deck) {
-		CardFactory tempDeck = new CardFactory();
-		for(int i=0; i<myCards.length(); i++) {
-			if(myCards.atIndex(i).compareTo(deck.atIndex(0)) == 1) {
-				tempDeck.push(myCards.atIndex(i));
+	public void checkPlayable(Deck d) {
+		Deck tempDeck = new Deck();
+		for(int i=0; i<handCards.length(); i++) {
+			if(handCards.atIndex(i).compareTo(d.atIndex(0)) == 1) {
+				tempDeck.push(handCards.atIndex(i));
 			}
 		}
 		tempDeck.displayCards();
