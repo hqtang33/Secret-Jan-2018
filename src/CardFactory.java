@@ -45,5 +45,14 @@ public class CardFactory {
 	public void ShuffleCards() {
 		Collections.shuffle(Deck);
 	}
+	
+	public Card atIndex(int n) {
+		return Deck.get(n);
+	}
+	
+	public int length() {
+		return Deck.size();
+		
+	}
 
 }

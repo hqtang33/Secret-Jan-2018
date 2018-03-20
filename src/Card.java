@@ -33,7 +33,6 @@ public class Card implements Comparable<Card> {
 		System.out.println("Symbol: " + symbol);
 	}
 
-	@Override
 	public int compareTo(Card c) {
 		if ((this.color == c.getColor()) || (this.symbol == c.getSymbol()))
 			return 1;
