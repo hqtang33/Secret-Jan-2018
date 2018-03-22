@@ -11,21 +11,11 @@ public class Player {
 	}
 
 	public void drawCard(Deck d) {
-		handCards.push(d.pop());
+		handCards.push(d.pop(0));
 	}
 
 	public void displayDeck() {
 		handCards.displayCards();
-	}
-	
-	public void checkPlayable(Deck d) {
-		Deck tempDeck = new Deck();
-		for(int i=0; i<handCards.length(); i++) {
-			if(handCards.atIndex(i).compareTo(d.atIndex(0)) == 1) {
-				tempDeck.push(handCards.atIndex(i));
-			}
-		}
-		tempDeck.displayCards();
 	}
 	
 	public List<String> cardList() {
@@ -35,5 +25,9 @@ public class Player {
 		}
 		return cardlist;
 		
+	}
+	
+	public Deck getHandCards() {
+		return this.handCards;
 	}
 }

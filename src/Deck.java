@@ -30,12 +30,12 @@ public class Deck {
 		}
 	}
 
-	public Card pop() {
-		return cardDeck.remove(0);
+	public Card pop(int n) {
+		return cardDeck.remove(n);
 	}
 
 	public void push(Card c) {
-		cardDeck.add(c);
+		cardDeck.add(0, c);
 	}
 
 	public void ShuffleCards() {
@@ -49,10 +49,33 @@ public class Deck {
 	public int length() {
 		return cardDeck.size();
 	}
-	
+
 	public String getName(int n) {
 		Card c = cardDeck.get(n);
-		return c.getColor() + "_" +c.getSymbol();
+		return c.getColor() + "_" + c.getSymbol();
+	}
+
+	public boolean checkPlayable(Deck d, int n) {
+		if (cardDeck.get(n).compareTo(d.atIndex(0)) == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public int findIndexByName(String s) {
+		for (int i = 0; i < cardDeck.size(); i++) {
+			String temp = new String(cardDeck.get(i).getColor() + "-" + cardDeck.get(i).getSymbol());
+			//System.out.println(s + "==" +temp);
+			if (temp.equals(s)) {
+				System.out.print("ok");
+				return i;
+			}
+		}
+		return 999;
+	}
+	
+	public List<Card> getList() {
+		return this.cardDeck;
 	}
 
 }
