@@ -56,7 +56,7 @@ public class Deck {
 	}
 
 	public boolean checkPlayable(Deck d, int n) {
-		if (cardDeck.get(n).compareTo(d.atIndex(0)) == 1) {
+		if (cardDeck.get(n).getColor().equals(d.atIndex(0).getColor()) || cardDeck.get(n).getSymbol().equals(d.atIndex(0).getSymbol())) {
 			return true;
 		}
 		return false;
