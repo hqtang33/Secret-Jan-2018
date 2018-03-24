@@ -82,9 +82,8 @@ public class Deck {
 		return this.cardDeck;
 	}
 	
-//	public void sort() {
-//		List<Card> tempdeck = p1.getHandCards().getList();
-//		Collections.sort(tempdeck, (c1,c2) -> c1.compareBigger(c2));
-//	}
+	public void sort() {
+		Collections.sort(cardDeck, (c1,c2) -> c1.compareBigger(c2));
+	}
 
 }

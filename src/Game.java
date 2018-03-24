@@ -47,7 +47,7 @@ public class Game extends Application {
 		}
 
 		abstract void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException;
-
+				
 		protected void callNext() {
 			getScene().setRoot(next);
 		}
@@ -172,31 +172,8 @@ public class Game extends Application {
 	}
 
 	public static void main(String args[]) {
-		Deck deck = new Deck();
-		deck.initializeCards();
-		deck.ShuffleCards();
 		
-		Player p1 = new Player();
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		p1.drawCard(deck);
-		
-		p1.displayDeck();
-		
-		System.out.println("");
-		List<Card> tempdeck = p1.getHandCards().getList();
-		Collections.sort(tempdeck, (c1,c2) -> c1.compareBigger(c2));
-		
-		
-		
-		p1.getHandCards().convertArrayList(tempdeck);
-		System.out.println("");
-		p1.displayDeck();
+		launch(args);
 		
 	}
 
@@ -208,7 +185,61 @@ public class Game extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
+		// Game
+		Deck cardDeck = new Deck();
+		Deck discardPile = new Deck();
+		cardDeck.initializeCards();
+		cardDeck.ShuffleCards();
+		discardPile.push(cardDeck.pop(0));
+
+		String x = discardPile.getName(0);
+
+		Player p1 = new Player();
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.drawCard(cardDeck);
+		p1.getHandCards().sort();
+
+		Player p2 = new Player();
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
 		
+
+		List<Player> PlayerList = new ArrayList<Player>();
+
+		PlayerList.add(p1);
+		PlayerList.add(p2);
+
+
+		SwitchStage first = new PlayGame();
+		SwitchStage second = new PlayGame();
+		first.createGUI(cardDeck, discardPile, p1);
+		
+//		for (int i = 0; i < PlayerList.size() - 1; i++) {
+//			first.createGUI(cardDeck, discardPile, PlayerList.get(i));
+//			first.setNext();
+//
+//		}
+
+		// Players list
+
+		Scene scene = new Scene(first, 850, 600);
+		scene.getStylesheets().add("style.css");
+
+		primaryStage.setResizable(false);
+		primaryStage.setTitle("UNO Card GUI");
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 
 	public void addChild(HBox pile, String x) throws FileNotFoundException {
