@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -75,7 +76,7 @@ public class Game extends Application {
 			HBox firstHandCards = new HBox();
 			
 			FileInputStream firstHandCards_input = new FileInputStream(
-					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
+					"src/img/card_back.png");
 			Image firstHandCards_img = new Image(firstHandCards_input);
 			ImageView firstHandCards_imgview = new ImageView(firstHandCards_img);
 			firstHandCards_imgview.setFitWidth(78);
@@ -96,7 +97,7 @@ public class Game extends Application {
 		
 			
 			FileInputStream deck_input = new FileInputStream(
-					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
+					"src/img/card_back.png");
 			Image deck_img = new Image(deck_input);
 			ImageView deck_imgview = new ImageView(deck_img);
 			deck_imgview.setFitWidth(78);
@@ -107,7 +108,7 @@ public class Game extends Application {
 			
 
 			FileInputStream pile_input = new FileInputStream(
-					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + pile.getName(0) + ".png");
+					"src/img/" + pile.getName(0) + ".png");
 			Image pile_img = new Image(pile_input);
 			ImageView pile_imgview = new ImageView(pile_img);
 			pile_imgview.setFitWidth(78);
@@ -119,7 +120,7 @@ public class Game extends Application {
 			for (int i = 0; i < p.getHandCards().length(); i++) {
 				String s = p.getHandCards().getName(i);
 				FileInputStream inputstream = new FileInputStream(
-						"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + s
+						"src/img/" + s
 								+ ".png");
 				Image image = new Image(inputstream);
 				ImageView imageview = new ImageView(image);
@@ -200,9 +201,6 @@ public class Game extends Application {
 
 		String x = discardPile.getName(0);
 		
-		//Players list
-		
-
 		Player p1 = new Player();
 		p1.drawCard(cardDeck);
 		p1.drawCard(cardDeck);
@@ -221,6 +219,26 @@ public class Game extends Application {
 		p2.drawCard(cardDeck);
 		p2.drawCard(cardDeck);
 		p2.drawCard(cardDeck);
+		
+		List<Player> PlayerList = new ArrayList();
+		
+		PlayerList.add(p1);
+		PlayerList.add(p2);
+		
+		
+//		for(int i=0; i<PlayerList.size();i++) {
+//			SwitchStage next = new PlayGame(null);
+//			SwitchStage cur = new PlayGame(next);
+//			
+//			cur.createGUI(cardDeck, discardPile, p);
+//		}
+//		
+		
+		//Players list
+		
+			
+
+		
 	
 
 		// GUI test commit
