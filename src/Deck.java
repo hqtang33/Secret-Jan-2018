@@ -22,6 +22,10 @@ public class Deck {
 			Card d = new Skip(c);
 			cardDeck.add(d);
 		}
+		for (String c : color) {
+			Card d = new Reverse(c);
+			cardDeck.add(d);
+		}
 	}
 
 	public void displayCards() {

@@ -46,8 +46,8 @@ public class Card implements Comparable<Card> {
 	}
 
 	public int compareBigger(Card c) {
-		String color2[] = { "Y", "B", "G", "R" };
-		String num2[] = { "9", "8", "7", "6", "5", "4", "3", "2", "1", "0" };
+		String color2[] = { "R", "Y", "G", "B", };
+		String num2[] = {"1", "2", "3", "4", "5", "6", "7", "8", "9","0","S","R"};
 
 		if (Arrays.asList(color2).indexOf(color) > Arrays.asList(color2).indexOf(c.getColor())) {
 			return 1;
