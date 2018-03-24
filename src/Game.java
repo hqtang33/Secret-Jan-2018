@@ -225,13 +225,7 @@ public class Game extends Application {
 		SwitchStage second = new PlayGame();
 		first.createGUI(cardDeck, discardPile, p1);
 		
-//		for (int i = 0; i < PlayerList.size() - 1; i++) {
-//			first.createGUI(cardDeck, discardPile, PlayerList.get(i));
-//			first.setNext();
-//
-//		}
 
-		// Players list
 
 		Scene scene = new Scene(first, 850, 600);
 		scene.getStylesheets().add("style.css");
@@ -244,7 +238,7 @@ public class Game extends Application {
 
 	public void addChild(HBox pile, String x) throws FileNotFoundException {
 		FileInputStream pile_input = new FileInputStream(
-				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + x + ".png");
+				"src/img/" + x + ".png");
 		Image pile_img = new Image(pile_input);
 		ImageView pile_imgview = new ImageView(pile_img);
 		pile_imgview.setFitWidth(78);
