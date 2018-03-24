@@ -25,6 +25,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Game extends Application {
@@ -32,11 +37,11 @@ public class Game extends Application {
 		private SwitchStage next;
 		public SwitchStage(SwitchStage next) {
 			this.next = next;
-			createGUI();
+			//createGUI(deck, pile, p);
 		}
-		abstract void createGUI();
+		abstract void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException;
 		protected void callNext() {
-			
+			getScene().setRoot(next);
 		}
 	}
 	
@@ -46,7 +51,7 @@ public class Game extends Application {
 		}
 
 		@Override
-		void createGUI() {
+		void createGUI(Deck deck, Deck pile, Player p) {
 			// TODO Auto-generated method stub
 			
 		}
@@ -58,8 +63,118 @@ public class Game extends Application {
 		}
 
 		@Override
-		void createGUI() {
-			// TODO Auto-generated method stub
+		void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException {
+			setPrefSize(850, 600);
+			setStyle("-fx-background-color: rgba(6, 136, 148)");
+			FlowPane handCards = new FlowPane(Orientation.HORIZONTAL);
+			handCards.setPrefWrapLength(700);
+			//setMargin(handCards, new Insets(5, 20, 50, 20));
+			HBox hb_pile = new HBox();
+			hb_pile.setSpacing(20);
+
+			HBox firstHandCards = new HBox();
+			
+			FileInputStream firstHandCards_input = new FileInputStream(
+					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
+			Image firstHandCards_img = new Image(firstHandCards_input);
+			ImageView firstHandCards_imgview = new ImageView(firstHandCards_img);
+			firstHandCards_imgview.setFitWidth(78);
+			firstHandCards_imgview.setFitHeight(109);
+			Button firstHandCards_btn = new Button(null, firstHandCards_imgview);
+			firstHandCards_btn.setId("img-btn");
+			firstHandCards.getChildren().add(firstHandCards_btn);
+			
+
+			Text playername = new Text("Player 1");
+			playername.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+			playername.setFill(Color.WHITE);
+			//playername.setRotate(-90);
+			VBox anotherVBox = new VBox();
+			
+			anotherVBox.setAlignment(Pos.CENTER);
+			
+		
+			
+			FileInputStream deck_input = new FileInputStream(
+					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
+			Image deck_img = new Image(deck_input);
+			ImageView deck_imgview = new ImageView(deck_img);
+			deck_imgview.setFitWidth(78);
+			deck_imgview.setFitHeight(109);
+			Button deck_btn = new Button(null, deck_imgview);
+			deck_btn.setId("img-btn");
+			hb_pile.getChildren().add(deck_btn);
+			
+
+			FileInputStream pile_input = new FileInputStream(
+					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + pile.getName(0) + ".png");
+			Image pile_img = new Image(pile_input);
+			ImageView pile_imgview = new ImageView(pile_img);
+			pile_imgview.setFitWidth(78);
+			pile_imgview.setFitHeight(109);
+			hb_pile.getChildren().add(pile_imgview);
+			
+		
+			
+			for (int i = 0; i < p.getHandCards().length(); i++) {
+				String s = p.getHandCards().getName(i);
+				FileInputStream inputstream = new FileInputStream(
+						"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + s
+								+ ".png");
+				Image image = new Image(inputstream);
+				ImageView imageview = new ImageView(image);
+				imageview.setFitWidth(60);
+				imageview.setFitHeight(87);
+				Button imgbtn = new Button(null, imageview);
+
+				imgbtn.setId("img-btn");
+
+				imgbtn.getStyleClass().add("p1-" + s.charAt(0) + "-" + s.charAt(2));
+				imgbtn.setOnMouseEntered(e -> {
+					imgbtn.setTranslateY(-15);
+				});
+				imgbtn.setOnMouseExited(e -> {
+					imgbtn.setTranslateY(0);
+				});
+				imgbtn.setOnMouseClicked(e -> {
+					
+					String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
+					Deck tempdeck = p.getHandCards();
+					if(tempdeck.checkPlayable(pile, tempdeck.findIndexByName(temp))) {
+						handCards.getChildren().remove(imgbtn);
+						pile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+						String tempname = pile.getName(0);
+						
+						try {
+							addChild(hb_pile, tempname);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						callNext();
+					} else {
+						System.out.println("Cannot use this card!");
+					}
+					
+				});
+				handCards.getChildren().add(imgbtn);
+			}
+			
+			hb_pile.setAlignment(Pos.CENTER);
+			
+			anotherVBox.getChildren().add(handCards);
+			anotherVBox.getChildren().add(playername);
+			anotherVBox.setMargin(playername, new Insets(10,0,20,0));
+			handCards.setAlignment(Pos.CENTER);
+			firstHandCards.setAlignment(Pos.TOP_LEFT);
+			setBottom(anotherVBox);
+			setCenter(hb_pile);
+			
+			
+
+			setTop(firstHandCards);
+			BorderPane.setMargin(hb_pile, new Insets(10, 0, 20, 0));
+			
 			
 		}
 	}
@@ -100,105 +215,24 @@ public class Game extends Application {
 		p1.drawCard(cardDeck);
 		p1.drawCard(cardDeck);
 		p1.drawCard(cardDeck);
+		
+		Player p2 = new Player();
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
+		p2.drawCard(cardDeck);
+	
 
 		// GUI
-		BorderPane pane = new BorderPane();
-		pane.setPrefSize(800, 600);
-		pane.setStyle("-fx-background-color: rgba(6, 136, 148)");
-		Scene scene = new Scene(pane, 850, 600);
+		SwitchStage p2PlayGame = new PlayGame(null);
+		SwitchStage p1PlayGame = new PlayGame(p2PlayGame);
+		p1PlayGame.createGUI(cardDeck, discardPile, p1);
+		p2PlayGame.createGUI(cardDeck, discardPile, p2);
+
+		Scene scene = new Scene(p1PlayGame, 850, 600);
 		scene.getStylesheets().add("style.css");
 
-		FlowPane handCards = new FlowPane(Orientation.HORIZONTAL);
-		handCards.setPrefWrapLength(700);
-		BorderPane.setMargin(handCards, new Insets(5, 30, 50, 30));
-
-		HBox pile = new HBox();
-		pile.setSpacing(20);
-
-		HBox firstHandCards = new HBox();
 		
-		FileInputStream firstHandCards_input = new FileInputStream(
-				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
-		Image firstHandCards_img = new Image(firstHandCards_input);
-		ImageView firstHandCards_imgview = new ImageView(firstHandCards_img);
-		firstHandCards_imgview.setFitWidth(78);
-		firstHandCards_imgview.setFitHeight(109);
-		Button firstHandCards_btn = new Button(null, firstHandCards_imgview);
-		firstHandCards_btn.setId("img-btn");
-		firstHandCards.getChildren().add(firstHandCards_btn);
-		
-		FileInputStream deck_input = new FileInputStream(
-				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\card_back.png");
-		Image deck_img = new Image(deck_input);
-		ImageView deck_imgview = new ImageView(deck_img);
-		deck_imgview.setFitWidth(78);
-		deck_imgview.setFitHeight(109);
-		Button deck_btn = new Button(null, deck_imgview);
-		deck_btn.setId("img-btn");
-		pile.getChildren().add(deck_btn);
-
-		FileInputStream pile_input = new FileInputStream(
-				"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + x + ".png");
-		Image pile_img = new Image(pile_input);
-		ImageView pile_imgview = new ImageView(pile_img);
-		pile_imgview.setFitWidth(78);
-		pile_imgview.setFitHeight(109);
-		pile.getChildren().add(pile_imgview);
-
-
-		for (int i = 0; i < p1.getHandCards().length(); i++) {
-			String s = p1.getHandCards().getName(i);
-			FileInputStream inputstream = new FileInputStream(
-					"C:\\Users\\HQ\\Desktop\\Y2_SEM3\\OOPP\\Assignment\\Secret\\Secret-Jan-2018\\src\\img\\" + s
-							+ ".png");
-			Image image = new Image(inputstream);
-			ImageView imageview = new ImageView(image);
-			imageview.setFitWidth(78);
-			imageview.setFitHeight(109);
-			Button imgbtn = new Button(null, imageview);
-
-			imgbtn.setId("img-btn");
-
-			imgbtn.getStyleClass().add("p1-" + s.charAt(0) + "-" + s.charAt(2));
-			imgbtn.setOnMouseEntered(e -> {
-				imgbtn.setTranslateY(-15);
-			});
-			imgbtn.setOnMouseExited(e -> {
-				imgbtn.setTranslateY(0);
-			});
-			imgbtn.setOnMouseClicked(e -> {
-				
-				String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
-				Deck tempdeck = p1.getHandCards();
-				if(tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
-					handCards.getChildren().remove(imgbtn);
-					discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
-					String tempname = discardPile.getName(0);
-					
-					try {
-						addChild(pile, tempname);
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					System.out.println("Cannot use this card!");
-				}
-				
-			});
-			handCards.getChildren().add(imgbtn);
-		}
-		
-				
-		
-		pile.setAlignment(Pos.CENTER);
-		handCards.setAlignment(Pos.CENTER);
-		firstHandCards.setAlignment(Pos.TOP_LEFT);
-		pane.setBottom(handCards);
-		pane.setCenter(pile);
-		pane.setTop(firstHandCards);
-		BorderPane.setMargin(pile, new Insets(10, 0, 20, 0));
-
 		primaryStage.setResizable(false);
 		primaryStage.setTitle("UNO Card GUI");
 		primaryStage.setScene(scene);
