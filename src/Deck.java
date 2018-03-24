@@ -29,6 +29,10 @@ public class Deck {
 			System.out.println(d.getColor() + ", " + d.getSymbol());
 		}
 	}
+	
+	public void convertArrayList(List<Card> list) {
+		this.cardDeck = list;
+	}
 
 	public Card pop(int n) {
 		return cardDeck.remove(n);
@@ -77,5 +81,10 @@ public class Deck {
 	public List<Card> getList() {
 		return this.cardDeck;
 	}
+	
+//	public void sort() {
+//		List<Card> tempdeck = p1.getHandCards().getList();
+//		Collections.sort(tempdeck, (c1,c2) -> c1.compareBigger(c2));
+//	}
 
 }
