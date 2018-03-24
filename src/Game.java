@@ -223,7 +223,7 @@ public class Game extends Application {
 		p2.drawCard(cardDeck);
 	
 
-		// GUI
+		// GUI test commit
 		SwitchStage p2PlayGame = new PlayGame(null);
 		SwitchStage p1PlayGame = new PlayGame(p2PlayGame);
 		p1PlayGame.createGUI(cardDeck, discardPile, p1);
