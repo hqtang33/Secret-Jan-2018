@@ -4,7 +4,7 @@ public class Card implements Comparable<Card> {
 
 	public Card() {
 		this.color = "";
-		this.symbol = "";
+		this.symbol = "";//asdsad
 	}
 
 	public Card(String color, String symbol) {
