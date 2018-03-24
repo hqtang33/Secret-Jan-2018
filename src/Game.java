@@ -70,7 +70,7 @@ public class Game extends Application {
 
 		@Override
 		void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException {
-			setPrefSize(850, 600);
+			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
 			FlowPane handCards = new FlowPane(Orientation.HORIZONTAL);
 			handCards.setPrefWrapLength(700);
@@ -223,11 +223,15 @@ public class Game extends Application {
 
 		SwitchStage first = new PlayGame();
 		SwitchStage second = new PlayGame();
+		first.setNext(second);
+		second.setNext(null);
 		first.createGUI(cardDeck, discardPile, p1);
+		second.createGUI(cardDeck, discardPile, p2);
+		
 		
 
 
-		Scene scene = new Scene(first, 850, 600);
+		Scene scene = new Scene(first, 1024, 768);
 		scene.getStylesheets().add("style.css");
 
 		primaryStage.setResizable(false);
