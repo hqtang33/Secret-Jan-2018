@@ -52,7 +52,7 @@ public class Game extends Application {
 
 		@Override
 		void createGUI(Deck deck, Deck pile, Player p) {
-			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub gg
 			
 		}
 	}
