@@ -136,58 +136,9 @@ public class Game extends Application {
 			p1Vbox.setAlignment(Pos.CENTER);
 			
 			if(playerindex != 1) {
-				for (int i = 0; i < p1.getHandCards().length(); i++) {
-					FileInputStream inputstream = new FileInputStream("src/img/card_back.png");
-					Image image = new Image(inputstream);
-					ImageView imageview = new ImageView(image);
-					imageview.setFitWidth(60);
-					imageview.setFitHeight(87);
-					Button imgbtn = new Button(null, imageview);
-					imgbtn.setId("img-btn");
-					p1HandCards.getChildren().add(imgbtn);
-				}
+				closeCards(p1, p1HandCards);
 			} else {
-				for (int i = 0; i < p1.getHandCards().length(); i++) {
-					String s = p1.getHandCards().getName(i);
-					FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
-					Image image = new Image(inputstream);
-					ImageView imageview = new ImageView(image);
-					imageview.setFitWidth(60);
-					imageview.setFitHeight(87);
-					Button imgbtn = new Button(null, imageview);
-
-					imgbtn.setId("img-btn");
-
-					imgbtn.getStyleClass().add("p1-" + s.charAt(0) + "-" + s.charAt(2));
-					imgbtn.setOnMouseEntered(e -> {
-						imgbtn.setTranslateY(-15);
-					});
-					imgbtn.setOnMouseExited(e -> {
-						imgbtn.setTranslateY(0);
-					});
-					imgbtn.setOnMouseClicked(e -> {
-
-						String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
-						Deck tempdeck = p1.getHandCards();
-						if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
-							p1HandCards.getChildren().remove(imgbtn);
-							discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
-							String tempname = discardPile.getName(0);
-
-							try {
-								addChild(hb_pile, tempname);
-							} catch (FileNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							
-						} else {
-							System.out.println("Cannot use this card!");
-						}
-
-					});
-					p1HandCards.getChildren().add(imgbtn);
-				}
+				openCards(p1, p1HandCards, cardDeck, discardPile, hb_pile);
 			}
 			
 			
