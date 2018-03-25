@@ -256,16 +256,16 @@ public class Game extends Application {
 
 		@Override
 		void createGUI() throws FileNotFoundException {
-			// TODO Auto-generated method stub
-
-			FileInputStream menu_input = new FileInputStream("src/img/logo.png");
-			Image menu_img = new Image(menu_input);
-			ImageView menu_imgview = new ImageView(menu_img);
-
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color : rgba(183,14,163) ;-fx-font-size:50;-text-fill:black");
 
 			VBox menubox = new VBox();
+			
+			FileInputStream menu_input = new FileInputStream("src/img/logo.png");
+			Image menu_img = new Image(menu_input);
+			ImageView menu_imgview = new ImageView(menu_img);
+			
+			menubox.getChildren().add(menu_imgview);
 
 			Button TwoPlayerBtn = new Button("TWO PLAYER");
 			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
@@ -327,7 +327,6 @@ public class Game extends Application {
 			menubox.setAlignment(Pos.CENTER);
 			menubox.setSpacing(30);
 			setCenter(menubox);
-			//setMargin(menubox, new Insets(23, 23, 23, 23));
 			BorderPane.setAlignment(menubox, Pos.CENTER);
 			
 
