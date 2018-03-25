@@ -365,6 +365,7 @@ public class Game extends Application {
 			deck_btn.setOnMouseClicked(e->{
 				System.out.println("ok");
 				p1.getHandCards().push(cardDeck.pop(0));
+				p1.getHandCards().sort();
 				
 				try {
 					openCards(p1, p1HandCards, cardDeck, discardPile, hb_pile);
