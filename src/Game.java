@@ -129,9 +129,8 @@ public class Game extends Application {
 			p1name.setFill(Color.WHITE);
 			FlowPane p1HandCards = new FlowPane(Orientation.HORIZONTAL);
 			p1HandCards.setPrefWrapLength(900);
-			
-			
-			//-----------------------------------------------------------------------------------------
+
+			// -----------------------------------------------------------------------------------------
 			// Player 1 - p1HandCards
 			VBox p1Vbox = new VBox();
 			p1Vbox.setAlignment(Pos.CENTER);
@@ -248,6 +247,94 @@ public class Game extends Application {
 		}
 	}
 
+	private class MainMenu extends SwitchView {
+
+		public MainMenu(SwitchView next) throws FileNotFoundException {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		void createGUI() throws FileNotFoundException {
+			// TODO Auto-generated method stub
+
+			FileInputStream menu_input = new FileInputStream("src/img/logo.png");
+			Image menu_img = new Image(menu_input);
+			ImageView menu_imgview = new ImageView(menu_img);
+
+			setPrefSize(1024, 768);
+			setStyle("-fx-background-color : rgba(183,14,163) ;-fx-font-size:50;-text-fill:black");
+
+			VBox menubox = new VBox();
+
+			Button TwoPlayerBtn = new Button("TWO PLAYER");
+			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			TwoPlayerBtn.setId("menu-btn");
+			
+			TwoPlayerBtn.setOnMouseEntered(e -> {
+				TwoPlayerBtn.setTranslateX(20);
+			});
+			
+			TwoPlayerBtn.setOnMouseExited(e -> {
+				TwoPlayerBtn.setTranslateX(0);
+			});
+			
+			TwoPlayerBtn.setOnMouseClicked(e -> {
+				callNext();
+			});
+			
+			menubox.getChildren().add(TwoPlayerBtn);
+
+			Button ThreePlayerBtn = new Button("THREE PLAYER");
+			ThreePlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			ThreePlayerBtn.setId("menu-btn");
+
+			ThreePlayerBtn.setOnMouseEntered(e -> {
+				ThreePlayerBtn.setTranslateX(20);
+			});
+			
+			ThreePlayerBtn.setOnMouseExited(e -> {
+				ThreePlayerBtn.setTranslateX(0);
+			});
+			
+			menubox.getChildren().add(ThreePlayerBtn);
+
+			Button FourPlayerBtn = new Button("FOUR PLAYER");
+			FourPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			FourPlayerBtn.setId("menu-btn");
+
+			FourPlayerBtn.setOnMouseEntered(e -> {
+				FourPlayerBtn.setTranslateX(20);
+			});
+			
+			FourPlayerBtn.setOnMouseExited(e -> {
+				FourPlayerBtn.setTranslateX(0);
+			});
+			menubox.getChildren().add(FourPlayerBtn);
+
+			Button btnEnd = new Button("Exit");
+			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			btnEnd.setId("menu-btn");
+
+			btnEnd.setOnMouseEntered(e -> {
+				btnEnd.setTranslateX(20);
+			});
+			
+			btnEnd.setOnMouseExited(e -> {
+				btnEnd.setTranslateX(0);
+			});
+			menubox.getChildren().add(btnEnd);
+			menubox.setAlignment(Pos.CENTER);
+			menubox.setSpacing(30);
+			setCenter(menubox);
+			//setMargin(menubox, new Insets(23, 23, 23, 23));
+			BorderPane.setAlignment(menubox, Pos.CENTER);
+			
+
+		}
+
+	}
+
 	public void closeCards(Player p, FlowPane pHandCards) throws FileNotFoundException {
 		pHandCards.getChildren().clear();
 		for (int i = 0; i < p.getHandCards().length(); i++) {
@@ -325,13 +412,14 @@ public class Game extends Application {
 	public void start(Stage primaryStage) throws FileNotFoundException {
 		// Game
 		SwitchView test = new PlayGame(null);
+		SwitchView main = new MainMenu(test);
 
-		Scene scene = new Scene(test, 1600, 768);
+		Scene scene = new Scene(main, 1600, 768);
 		scene.getStylesheets().add("style.css");
 		primaryStage.setMinWidth(1024);
 		primaryStage.setMinHeight(768);
 		primaryStage.setMaxWidth(1600);
-		// primaryStage.setResizable(false);
+		primaryStage.setResizable(false);
 		primaryStage.setTitle("UNO Card GUI");
 		primaryStage.setScene(scene);
 		primaryStage.show();
