@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -65,7 +66,7 @@ public class Game extends Application {
 
 		@Override
 		void createGUI() throws FileNotFoundException {
-			int playerindex = 4;
+			int playerindex = 1;
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
 
@@ -129,41 +130,24 @@ public class Game extends Application {
 			p1name.setFill(Color.WHITE);
 			FlowPane p1HandCards = new FlowPane(Orientation.HORIZONTAL);
 			p1HandCards.setPrefWrapLength(900);
-
-			// -----------------------------------------------------------------------------------------
 			// Player 1 - p1HandCards
 			VBox p1Vbox = new VBox();
 			p1Vbox.setAlignment(Pos.CENTER);
-
-			if (playerindex != 1) {
-				closeCards(p1, p1HandCards);
-			} else {
-				openCards(p1, p1HandCards, cardDeck, discardPile, hb_pile);
-			}
-
 			p1HandCards.setAlignment(Pos.CENTER);
 			p1Vbox.getChildren().add(p1HandCards);
 			p1Vbox.getChildren().add(p1name);
 			p1Vbox.setMargin(p1name, new Insets(10, 0, 20, 0));
 			setBottom(p1Vbox);
-
 			// Player 2 - GUI Declaration
 			Text p2name = new Text("Player 2");
 			p2name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			p2name.setFill(Color.WHITE);
 			FlowPane p2HandCards = new FlowPane(Orientation.HORIZONTAL);
 			p2HandCards.setPrefWrapLength(650);
-
 			// Player 2 - p2HandCards
 			VBox p2Vbox = new VBox();
 			p2Vbox.setAlignment(Pos.BOTTOM_CENTER);
-
-			if (playerindex != 2) {
-				closeCards(p2, p2HandCards);
-			} else {
-				openCards(p2, p2HandCards, cardDeck, discardPile, hb_pile);
-			}
-
+			closeCards(p2, p2HandCards);
 			p2HandCards.setAlignment(Pos.CENTER);
 			p2Vbox.getChildren().add(p2HandCards);
 			p2Vbox.getChildren().add(p2name);
@@ -171,6 +155,8 @@ public class Game extends Application {
 			p2Vbox.setMargin(p2name, new Insets(0, 20, 0, 10));
 			setLeft(p2Vbox);
 
+			
+			
 			// Player 3 - GUI Declaration
 			Text p3name = new Text("Player 3");
 			p3name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
@@ -182,11 +168,7 @@ public class Game extends Application {
 			VBox p3Vbox = new VBox();
 			p3Vbox.setAlignment(Pos.BOTTOM_CENTER);
 
-			if (playerindex != 3) {
-				closeCards(p3, p3HandCards);
-			} else {
-				openCards(p3, p3HandCards, cardDeck, discardPile, hb_pile);
-			}
+			closeCards(p3, p3HandCards);
 
 			p3HandCards.setAlignment(Pos.CENTER);
 			p3Vbox.getChildren().add(p3HandCards);
@@ -207,11 +189,7 @@ public class Game extends Application {
 			VBox p4Vbox = new VBox();
 			p4Vbox.setAlignment(Pos.BOTTOM_CENTER);
 
-			if (playerindex != 4) {
-				closeCards(p4, p4HandCards);
-			} else {
-				openCards(p4, p4HandCards, cardDeck, discardPile, hb_pile);
-			}
+			closeCards(p4, p4HandCards);
 
 			p4HandCards.setAlignment(Pos.CENTER);
 			p4Vbox.getChildren().add(p4HandCards);
@@ -220,25 +198,10 @@ public class Game extends Application {
 
 			p4Vbox.setMargin(p4name, new Insets(10, 10, 0, 20));
 			setRight(p4Vbox);
+			
+			openCards(p1, p1HandCards, p2, p2HandCards, p3, p3HandCards, p4, p4HandCards,cardDeck, discardPile, hb_pile, deck_btn);
 
-			deck_btn.setOnMouseClicked(e -> {
-				System.out.println("ok");
-				p1.getHandCards().push(cardDeck.pop(0));
-				p1.getHandCards().sort();
-
-				try {
-					openCards(p1, p1HandCards, cardDeck, discardPile, hb_pile);
-
-					// closeCards(p1, p1HandCards);
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				// String tempname = p1.getHandCards().getName(0);
-
-				// p1HandCards.getChildren().add(arg0)
-
-			});
+			
 
 			hb_pile.setAlignment(Pos.CENTER);
 			setCenter(hb_pile);
@@ -260,29 +223,29 @@ public class Game extends Application {
 			setStyle("-fx-background-color : rgba(183,14,163) ;-fx-font-size:50;-text-fill:black");
 
 			VBox menubox = new VBox();
-			
+
 			FileInputStream menu_input = new FileInputStream("src/img/logo.png");
 			Image menu_img = new Image(menu_input);
 			ImageView menu_imgview = new ImageView(menu_img);
-			
+
 			menubox.getChildren().add(menu_imgview);
 
 			Button TwoPlayerBtn = new Button("TWO PLAYER");
 			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
 			TwoPlayerBtn.setId("menu-btn");
-			
+
 			TwoPlayerBtn.setOnMouseEntered(e -> {
 				TwoPlayerBtn.setTranslateX(20);
 			});
-			
+
 			TwoPlayerBtn.setOnMouseExited(e -> {
 				TwoPlayerBtn.setTranslateX(0);
 			});
-			
+
 			TwoPlayerBtn.setOnMouseClicked(e -> {
 				callNext();
 			});
-			
+
 			menubox.getChildren().add(TwoPlayerBtn);
 
 			Button ThreePlayerBtn = new Button("THREE PLAYER");
@@ -292,11 +255,11 @@ public class Game extends Application {
 			ThreePlayerBtn.setOnMouseEntered(e -> {
 				ThreePlayerBtn.setTranslateX(20);
 			});
-			
+
 			ThreePlayerBtn.setOnMouseExited(e -> {
 				ThreePlayerBtn.setTranslateX(0);
 			});
-			
+
 			menubox.getChildren().add(ThreePlayerBtn);
 
 			Button FourPlayerBtn = new Button("FOUR PLAYER");
@@ -306,7 +269,7 @@ public class Game extends Application {
 			FourPlayerBtn.setOnMouseEntered(e -> {
 				FourPlayerBtn.setTranslateX(20);
 			});
-			
+
 			FourPlayerBtn.setOnMouseExited(e -> {
 				FourPlayerBtn.setTranslateX(0);
 			});
@@ -315,11 +278,12 @@ public class Game extends Application {
 			Button btnEnd = new Button("Exit");
 			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
 			btnEnd.setId("menu-btn");
+			btnEnd.setOnAction(e->Platform.exit());
 
 			btnEnd.setOnMouseEntered(e -> {
 				btnEnd.setTranslateX(20);
 			});
-			
+
 			btnEnd.setOnMouseExited(e -> {
 				btnEnd.setTranslateX(0);
 			});
@@ -328,7 +292,6 @@ public class Game extends Application {
 			menubox.setSpacing(30);
 			setCenter(menubox);
 			BorderPane.setAlignment(menubox, Pos.CENTER);
-			
 
 		}
 
@@ -349,11 +312,33 @@ public class Game extends Application {
 		}
 	}
 
-	public void openCards(Player p, FlowPane pHandCards, Deck cardDeck, Deck discardPile, HBox pile)
-			throws FileNotFoundException {
-		pHandCards.getChildren().clear();
-		for (int i = 0; i < p.getHandCards().length(); i++) {
-			String s = p.getHandCards().getName(i);
+	public void openCards(Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards,Player p3, FlowPane p3HandCards,Player p4, FlowPane p4HandCards, Deck cardDeck,
+			Deck discardPile, HBox pile, Button btn) throws FileNotFoundException {
+		
+			
+			
+			btn.setOnMouseClicked(e -> {
+				System.out.println("ok");
+				p1.getHandCards().push(cardDeck.pop(0));
+				p1.getHandCards().sort();
+
+				try {
+					openCards(p1, p1HandCards, p2, p2HandCards, p3, p3HandCards, p4, p4HandCards,cardDeck, discardPile, pile, btn);
+
+					// closeCards(p1, p1HandCards);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				// String tempname = p1.getHandCards().getName(0);
+
+				// p1HandCards.getChildren().add(arg0)
+
+			});
+		
+		p1HandCards.getChildren().clear();
+		for (int i = 0; i < p1.getHandCards().length(); i++) {
+			String s = p1.getHandCards().getName(i);
 			FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
 			Image image = new Image(inputstream);
 			ImageView imageview = new ImageView(image);
@@ -373,9 +358,9 @@ public class Game extends Application {
 			imgbtn.setOnMouseClicked(e -> {
 
 				String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
-				Deck tempdeck = p.getHandCards();
+				Deck tempdeck = p1.getHandCards();
 				if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
-					pHandCards.getChildren().remove(imgbtn);
+					p1HandCards.getChildren().remove(imgbtn);
 					discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
 					String tempname = discardPile.getName(0);
 
@@ -385,12 +370,102 @@ public class Game extends Application {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+
+					try {
+						openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards,cardDeck, discardPile, pile, btn);
+						closeCards(p1, p1HandCards);
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					System.out.println("Cannot use this card!");
 				}
 
 			});
-			pHandCards.getChildren().add(imgbtn);
+			p1HandCards.getChildren().add(imgbtn);
+
+		}
+	}
+	
+	//Overloaded
+	public void openCards(Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards,Player p3, FlowPane p3HandCards, Deck cardDeck,
+			Deck discardPile, HBox pile, Button btn) throws FileNotFoundException {
+		
+			
+			
+			btn.setOnMouseClicked(e -> {
+				System.out.println("ok");
+				if(discardPile.length() > 5) {
+					for(int i = 5; i > 0; i--) {
+						cardDeck.push(discardPile.pop(discardPile.length()-1));
+					}
+				}
+				p1.getHandCards().push(cardDeck.pop(0));
+				p1.getHandCards().sort();
+
+				try {
+					openCards(p1, p1HandCards, p2, p2HandCards, p3, p3HandCards,cardDeck, discardPile, pile, btn);
+
+					// closeCards(p1, p1HandCards);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				// String tempname = p1.getHandCards().getName(0);
+
+				// p1HandCards.getChildren().add(arg0)
+
+			});
+		
+		p1HandCards.getChildren().clear();
+		for (int i = 0; i < p1.getHandCards().length(); i++) {
+			String s = p1.getHandCards().getName(i);
+			FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
+			Image image = new Image(inputstream);
+			ImageView imageview = new ImageView(image);
+			imageview.setFitWidth(60);
+			imageview.setFitHeight(87);
+			Button imgbtn = new Button(null, imageview);
+
+			imgbtn.setId("img-btn");
+
+			imgbtn.getStyleClass().add("p4-" + s.charAt(0) + "-" + s.charAt(2));
+			imgbtn.setOnMouseEntered(e -> {
+				imgbtn.setTranslateY(-15);
+			});
+			imgbtn.setOnMouseExited(e -> {
+				imgbtn.setTranslateY(0);
+			});
+			imgbtn.setOnMouseClicked(e -> {
+
+				String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
+				Deck tempdeck = p1.getHandCards();
+				if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
+					p1HandCards.getChildren().remove(imgbtn);
+					discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+					String tempname = discardPile.getName(0);
+
+					try {
+						addChild(pile, tempname);
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+					try {
+						openCards(p2, p2HandCards, p3, p3HandCards, p1, p1HandCards,cardDeck, discardPile, pile, btn);
+						closeCards(p1, p1HandCards);
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					System.out.println("Cannot use this card!");
+				}
+
+			});
+			p1HandCards.getChildren().add(imgbtn);
 
 		}
 	}

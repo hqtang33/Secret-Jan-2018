@@ -42,6 +42,10 @@ public class Deck {
 	public void push(Card c) {
 		cardDeck.add(0, c);
 	}
+	
+	public void push(Card c, int n) {
+		cardDeck.add(n, c);
+	}
 
 	public void ShuffleCards() {
 		Collections.shuffle(cardDeck);
