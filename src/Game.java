@@ -64,7 +64,7 @@ public class Game extends Application {
 		
 		@Override
 		void createGUI() throws FileNotFoundException {
-			int playerindex=2;
+			int playerindex=1;
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
 			
@@ -90,6 +90,8 @@ public class Game extends Application {
 			Button deck_btn = new Button(null, deck_imgview);
 			deck_btn.setId("img-btn");
 			hb_pile.getChildren().add(deck_btn);
+			
+			
 
 			FileInputStream pile_input = new FileInputStream("src/img/" + discardPile.getName(0) + ".png");
 			Image pile_img = new Image(pile_input);
@@ -360,7 +362,23 @@ public class Game extends Application {
 			setRight(p4Vbox);
 			
 
-			
+			deck_btn.setOnMouseClicked(e->{
+				System.out.println("ok");
+				p1.getHandCards().push(cardDeck.pop(0));
+				
+				try {
+					openCards(p1, p1HandCards, cardDeck, discardPile, hb_pile);
+					
+					//closeCards(p1, p1HandCards);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				//String tempname = p1.getHandCards().getName(0);
+				
+				//p1HandCards.getChildren().add(arg0)
+				
+			});
 			
 			hb_pile.setAlignment(Pos.CENTER);
 			setCenter(hb_pile);
@@ -370,7 +388,9 @@ public class Game extends Application {
 	}
 	
 	public void closeCards(Player p, FlowPane pHandCards) throws FileNotFoundException {
+		pHandCards.getChildren().clear();
 		for (int i = 0; i < p.getHandCards().length(); i++) {
+			
 			FileInputStream inputstream = new FileInputStream("src/img/card_back.png");
 			Image image = new Image(inputstream);
 			ImageView imageview = new ImageView(image);
@@ -383,6 +403,7 @@ public class Game extends Application {
 	}
 	
 	public void openCards(Player p, FlowPane pHandCards, Deck cardDeck, Deck discardPile, HBox pile) throws FileNotFoundException {
+		pHandCards.getChildren().clear();
 		for (int i = 0; i < p.getHandCards().length(); i++) {
 			String s = p.getHandCards().getName(i);
 			FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
