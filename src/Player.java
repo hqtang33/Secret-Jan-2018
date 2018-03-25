@@ -5,9 +5,14 @@ import java.util.List;
 public class Player {
 	private String name;
 	private Deck handCards = new Deck();
+	private Player next;
 	
-	public Player() {
-		this.name = "noname";
+	public Player(String name) {
+		this.name = name;
+	}
+	
+	public void setNext(Player next) {
+		this.next = next;
 	}
 
 	public void drawCard(Deck d) {
