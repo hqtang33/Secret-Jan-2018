@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -35,68 +36,50 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Game extends Application {
-	private abstract class SwitchStage extends BorderPane {
-		private SwitchStage next;
+	private abstract class SwitchView extends BorderPane {
+		private SwitchView next;
 
-//		public SwitchStage(SwitchStage next) {
-//			this.next = next;
-//			// createGUI(deck, pile, p);
-//		}
-		public void setNext(SwitchStage next) {
+		public SwitchView(SwitchView next) throws FileNotFoundException {
+			this.next = next;
+			createGUI();
+		}
+		public void setNext(SwitchView next) {
 			this.next = next;
 		}
 
-		abstract void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException;
+		abstract void createGUI() throws FileNotFoundException;
 				
 		protected void callNext() {
 			getScene().setRoot(next);
 		}
 	}
 
-	private class MainMenu extends SwitchStage {
-		public MainMenu(SwitchStage next) {
-			super();
+	private class PlayGame extends SwitchView {
+
+		public PlayGame(SwitchView next) throws FileNotFoundException {
+			super(next);
+			// TODO Auto-generated constructor stub
 		}
 
 		@Override
-		void createGUI(Deck deck, Deck pile, Player p) {
-			// TODO Auto-generated method stub gg
-
-		}
-		
-	}
-
-	private class PlayGame extends SwitchStage {
-
-		@Override
-		void createGUI(Deck deck, Deck pile, Player p) throws FileNotFoundException {
+		void createGUI() throws FileNotFoundException {
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
-			FlowPane handCards = new FlowPane(Orientation.HORIZONTAL);
-			handCards.setPrefWrapLength(700);
-			// setMargin(handCards, new Insets(5, 20, 50, 20));
+			
+			// setMargin(p1HandCards, new Insets(5, 20, 50, 20));
 			HBox hb_pile = new HBox();
 			hb_pile.setSpacing(20);
-
-			HBox firstHandCards = new HBox();
-
-			FileInputStream firstHandCards_input = new FileInputStream("src/img/card_back.png");
-			Image firstHandCards_img = new Image(firstHandCards_input);
-			ImageView firstHandCards_imgview = new ImageView(firstHandCards_img);
-			firstHandCards_imgview.setFitWidth(78);
-			firstHandCards_imgview.setFitHeight(109);
-			Button firstHandCards_btn = new Button(null, firstHandCards_imgview);
-			firstHandCards_btn.setId("img-btn");
-			firstHandCards.getChildren().add(firstHandCards_btn);
-
-			Text playername = new Text("Player 1");
-			playername.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-			playername.setFill(Color.WHITE);
-			// playername.setRotate(-90);
-			VBox anotherVBox = new VBox();
-
-			anotherVBox.setAlignment(Pos.CENTER);
-
+			
+			//Deck Declaration
+			Deck cardDeck = new Deck();
+			Deck discardPile = new Deck();
+			
+			cardDeck.initializeCards();
+			cardDeck.ShuffleCards();
+			
+			discardPile.push(cardDeck.pop(0));
+			
+			//Deck GUI
 			FileInputStream deck_input = new FileInputStream("src/img/card_back.png");
 			Image deck_img = new Image(deck_input);
 			ImageView deck_imgview = new ImageView(deck_img);
@@ -106,15 +89,33 @@ public class Game extends Application {
 			deck_btn.setId("img-btn");
 			hb_pile.getChildren().add(deck_btn);
 
-			FileInputStream pile_input = new FileInputStream("src/img/" + pile.getName(0) + ".png");
+			FileInputStream pile_input = new FileInputStream("src/img/" + discardPile.getName(0) + ".png");
 			Image pile_img = new Image(pile_input);
 			ImageView pile_imgview = new ImageView(pile_img);
 			pile_imgview.setFitWidth(78);
 			pile_imgview.setFitHeight(109);
 			hb_pile.getChildren().add(pile_imgview);
 
-			for (int i = 0; i < p.getHandCards().length(); i++) {
-				String s = p.getHandCards().getName(i);
+			
+			//Player 1 Object Declaration
+			Player p1 = new Player();
+			for (int i=0;i<9;i++)
+				p1.drawCard(cardDeck);
+			
+			
+			//Player 1 - GUI Declaration
+			Text p1name = new Text("Player 1");
+			p1name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+			p1name.setFill(Color.WHITE);
+			FlowPane p1HandCards = new FlowPane(Orientation.HORIZONTAL);
+			p1HandCards.setPrefWrapLength(900);
+			
+			//Player 1 - p1HandCards
+			VBox p1Vbox = new VBox();
+			p1Vbox.setAlignment(Pos.CENTER);
+
+			for (int i = 0; i < p1.getHandCards().length(); i++) {
+				String s = p1.getHandCards().getName(i);
 				FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
 				Image image = new Image(inputstream);
 				ImageView imageview = new ImageView(image);
@@ -134,11 +135,11 @@ public class Game extends Application {
 				imgbtn.setOnMouseClicked(e -> {
 
 					String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
-					Deck tempdeck = p.getHandCards();
-					if (tempdeck.checkPlayable(pile, tempdeck.findIndexByName(temp))) {
-						handCards.getChildren().remove(imgbtn);
-						pile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
-						String tempname = pile.getName(0);
+					Deck tempdeck = p1.getHandCards();
+					if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
+						p1HandCards.getChildren().remove(imgbtn);
+						discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+						String tempname = discardPile.getName(0);
 
 						try {
 							addChild(hb_pile, tempname);
@@ -146,26 +147,158 @@ public class Game extends Application {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						callNext();
 					} else {
 						System.out.println("Cannot use this card!");
 					}
 
 				});
-				handCards.getChildren().add(imgbtn);
+				p1HandCards.getChildren().add(imgbtn);
 			}
+			p1HandCards.setAlignment(Pos.CENTER);
+			p1Vbox.getChildren().add(p1HandCards);
+			p1Vbox.getChildren().add(p1name);
+			p1Vbox.setMargin(p1name, new Insets(10, 0, 20, 0));
+			setBottom(p1Vbox);
+			
+			
+			//Player 2 Object Declaration
+			Player p2 = new Player();
+			for (int i=0;i<5;i++)
+				p2.drawCard(cardDeck);
+			
+			
+			//Player 2 - GUI Declaration
+			Text p2name = new Text("Player 2");
+			p2name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+			p2name.setFill(Color.WHITE);
+			FlowPane p2HandCards = new FlowPane(Orientation.HORIZONTAL);
+			p2HandCards.setPrefWrapLength(650);
+			
+			//Player 2 - p2HandCards
+			VBox p2Vbox = new VBox();
+			p2Vbox.setAlignment(Pos.BOTTOM_CENTER);
 
+			for (int i = 0; i < p2.getHandCards().length(); i++) {
+				String s = p2.getHandCards().getName(i);
+				FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
+				Image image = new Image(inputstream);
+				ImageView imageview = new ImageView(image);
+				imageview.setFitWidth(60);
+				imageview.setFitHeight(87);
+				Button imgbtn = new Button(null, imageview);
+
+				imgbtn.setId("img-btn");
+
+				imgbtn.getStyleClass().add("p2-" + s.charAt(0) + "-" + s.charAt(2));
+				imgbtn.setOnMouseEntered(e -> {
+					imgbtn.setTranslateY(-15);
+				});
+				imgbtn.setOnMouseExited(e -> {
+					imgbtn.setTranslateY(0);
+				});
+				imgbtn.setOnMouseClicked(e -> {
+
+					String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
+					Deck tempdeck = p2.getHandCards();
+					if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
+						p2HandCards.getChildren().remove(imgbtn);
+						discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+						String tempname = discardPile.getName(0);
+
+						try {
+							addChild(hb_pile, tempname);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Cannot use this card!");
+					}
+
+				});
+				p2HandCards.getChildren().add(imgbtn);
+			}
+			
+			
+			p2HandCards.setAlignment(Pos.CENTER);
+			p2Vbox.getChildren().add(p2HandCards);
+			p2Vbox.getChildren().add(p2name);
+			p2Vbox.setRotate(90);
+			p2Vbox.setMargin(p2name, new Insets(10, 0, 20, 0));
+			setLeft(p2Vbox);
+			
+			//Player 2 Object Declaration
+			Player p3 = new Player();
+			for (int i=0;i<5;i++)
+				p3.drawCard(cardDeck);
+			
+			
+			//Player 2 - GUI Declaration
+			Text p3name = new Text("Player 2");
+			p3name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+			p3name.setFill(Color.WHITE);
+			FlowPane p3HandCards = new FlowPane(Orientation.HORIZONTAL);
+			p3HandCards.setPrefWrapLength(650);
+			
+			//Player 2 - p3HandCards
+			VBox p3Vbox = new VBox();
+			p3Vbox.setAlignment(Pos.BOTTOM_CENTER);
+
+			for (int i = 0; i < p3.getHandCards().length(); i++) {
+				String s = p3.getHandCards().getName(i);
+				FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
+				Image image = new Image(inputstream);
+				ImageView imageview = new ImageView(image);
+				imageview.setFitWidth(60);
+				imageview.setFitHeight(87);
+				Button imgbtn = new Button(null, imageview);
+
+				imgbtn.setId("img-btn");
+
+				imgbtn.getStyleClass().add("p3-" + s.charAt(0) + "-" + s.charAt(2));
+				imgbtn.setOnMouseEntered(e -> {
+					imgbtn.setTranslateY(-15);
+				});
+				imgbtn.setOnMouseExited(e -> {
+					imgbtn.setTranslateY(0);
+				});
+				imgbtn.setOnMouseClicked(e -> {
+
+					String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
+					Deck tempdeck = p3.getHandCards();
+					if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
+						p3HandCards.getChildren().remove(imgbtn);
+						discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+						String tempname = discardPile.getName(0);
+
+						try {
+							addChild(hb_pile, tempname);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Cannot use this card!");
+					}
+
+				});
+				p3HandCards.getChildren().add(imgbtn);
+			}
+			
+			
+			p3HandCards.setAlignment(Pos.CENTER);
+			p3Vbox.getChildren().add(p3HandCards);
+			p3Vbox.getChildren().add(p3name);
+			//p3Vbox.setRotate(180);
+			p3Vbox.setMargin(p3name, new Insets(10, 0, 20, 0));
+			setTop(p3Vbox);
+			
+			
+
+			
+			
 			hb_pile.setAlignment(Pos.CENTER);
-
-			anotherVBox.getChildren().add(handCards);
-			anotherVBox.getChildren().add(playername);
-			anotherVBox.setMargin(playername, new Insets(10, 0, 20, 0));
-			handCards.setAlignment(Pos.CENTER);
-			firstHandCards.setAlignment(Pos.TOP_LEFT);
-			setBottom(anotherVBox);
 			setCenter(hb_pile);
-
-			setTop(firstHandCards);
 			BorderPane.setMargin(hb_pile, new Insets(10, 0, 20, 0));
 
 		}
@@ -186,52 +319,11 @@ public class Game extends Application {
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
 		// Game
-		Deck cardDeck = new Deck();
-		Deck discardPile = new Deck();
-		cardDeck.initializeCards();
-		cardDeck.ShuffleCards();
-		discardPile.push(cardDeck.pop(0));
-
-		String x = discardPile.getName(0);
-
-		Player p1 = new Player();
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.drawCard(cardDeck);
-		p1.getHandCards().sort();
-
-		Player p2 = new Player();
-		p2.drawCard(cardDeck);
-		p2.drawCard(cardDeck);
-		p2.drawCard(cardDeck);
-		p2.drawCard(cardDeck);
-		
-
-		List<Player> PlayerList = new ArrayList<Player>();
-
-		PlayerList.add(p1);
-		PlayerList.add(p2);
-
-
-		SwitchStage first = new PlayGame();
-		SwitchStage second = new PlayGame();
-		first.setNext(second);
-		second.setNext(null);
-		first.createGUI(cardDeck, discardPile, p1);
-		second.createGUI(cardDeck, discardPile, p2);
-		
+		SwitchView test = new PlayGame(null);
 		
 
 
-		Scene scene = new Scene(first, 1024, 768);
+		Scene scene = new Scene(test, 1024, 768);
 		scene.getStylesheets().add("style.css");
 
 		primaryStage.setResizable(false);
