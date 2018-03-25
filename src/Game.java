@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -101,6 +102,7 @@ public class Game extends Application {
 			Player p1 = new Player();
 			for (int i=0;i<9;i++)
 				p1.drawCard(cardDeck);
+			p1.getHandCards().sort();
 			
 			
 			//Player 1 - GUI Declaration
@@ -165,6 +167,7 @@ public class Game extends Application {
 			Player p2 = new Player();
 			for (int i=0;i<5;i++)
 				p2.drawCard(cardDeck);
+			p2.getHandCards().sort();
 			
 			
 			//Player 2 - GUI Declaration
@@ -227,20 +230,21 @@ public class Game extends Application {
 			p2Vbox.setMargin(p2name, new Insets(10, 0, 20, 0));
 			setLeft(p2Vbox);
 			
-			//Player 2 Object Declaration
+			//Player 3 Object Declaration
 			Player p3 = new Player();
 			for (int i=0;i<5;i++)
 				p3.drawCard(cardDeck);
+			p3.getHandCards().sort();
 			
 			
-			//Player 2 - GUI Declaration
-			Text p3name = new Text("Player 2");
+			//Player 3 - GUI Declaration
+			Text p3name = new Text("Player 3");
 			p3name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			p3name.setFill(Color.WHITE);
 			FlowPane p3HandCards = new FlowPane(Orientation.HORIZONTAL);
 			p3HandCards.setPrefWrapLength(650);
 			
-			//Player 2 - p3HandCards
+			//Player 3 - p3HandCards
 			VBox p3Vbox = new VBox();
 			p3Vbox.setAlignment(Pos.BOTTOM_CENTER);
 
@@ -290,9 +294,77 @@ public class Game extends Application {
 			p3Vbox.getChildren().add(p3HandCards);
 			p3Vbox.getChildren().add(p3name);
 			//p3Vbox.setRotate(180);
+			p3name.toBack();
 			p3Vbox.setMargin(p3name, new Insets(10, 0, 20, 0));
 			setTop(p3Vbox);
 			
+			//Player 4 Object Declaration
+			Player p4 = new Player();
+			for (int i=0;i<5;i++)
+				p4.drawCard(cardDeck);
+			p4.getHandCards().sort();
+			
+			
+			//Player 4 - GUI Declaration
+			Text p4name = new Text("Player 4");
+			p4name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+			p4name.setFill(Color.WHITE);
+			FlowPane p4HandCards = new FlowPane(Orientation.HORIZONTAL);
+			p4HandCards.setPrefWrapLength(650);
+			
+			//Player 3 - p4HandCards
+			VBox p4Vbox = new VBox();
+			p4Vbox.setAlignment(Pos.BOTTOM_CENTER);
+
+			for (int i = 0; i < p4.getHandCards().length(); i++) {
+				String s = p4.getHandCards().getName(i);
+				FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
+				Image image = new Image(inputstream);
+				ImageView imageview = new ImageView(image);
+				imageview.setFitWidth(60);
+				imageview.setFitHeight(87);
+				Button imgbtn = new Button(null, imageview);
+
+				imgbtn.setId("img-btn");
+
+				imgbtn.getStyleClass().add("p4-" + s.charAt(0) + "-" + s.charAt(2));
+				imgbtn.setOnMouseEntered(e -> {
+					imgbtn.setTranslateY(-15);
+				});
+				imgbtn.setOnMouseExited(e -> {
+					imgbtn.setTranslateY(0);
+				});
+				imgbtn.setOnMouseClicked(e -> {
+
+					String temp = imgbtn.getStyleClass().get(1).substring(3, 6);
+					Deck tempdeck = p4.getHandCards();
+					if (tempdeck.checkPlayable(discardPile, tempdeck.findIndexByName(temp))) {
+						p4HandCards.getChildren().remove(imgbtn);
+						discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+						String tempname = discardPile.getName(0);
+
+						try {
+							addChild(hb_pile, tempname);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						System.out.println("Cannot use this card!");
+					}
+
+				});
+				p4HandCards.getChildren().add(imgbtn);
+			}
+			
+			
+			p4HandCards.setAlignment(Pos.CENTER);
+			p4Vbox.getChildren().add(p4HandCards);
+			p4Vbox.getChildren().add(p4name);
+			p4Vbox.setRotate(-90);
+
+			p4Vbox.setMargin(p4name, new Insets(10, 0, 20, 0));
+			setRight(p4Vbox);
 			
 
 			
@@ -325,8 +397,9 @@ public class Game extends Application {
 
 		Scene scene = new Scene(test, 1024, 768);
 		scene.getStylesheets().add("style.css");
-
-		primaryStage.setResizable(false);
+		primaryStage.setMinWidth(1024);
+		primaryStage.setMinHeight(768);
+		//primaryStage.setResizable(false);
 		primaryStage.setTitle("UNO Card GUI");
 		primaryStage.setScene(scene);
 		primaryStage.show();
