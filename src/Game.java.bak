@@ -75,14 +75,13 @@ public class Game extends Application {
 			cardDeck.ShuffleCards();
 
 			discardPile.push(cardDeck.pop(0));
-			
 
 			// Deck GUI
 			FileInputStream deck_input = new FileInputStream("src/img/card_back.png");
 			Image deck_img = new Image(deck_input);
 			ImageView deck_imgview = new ImageView(deck_img);
-			deck_imgview.setFitWidth(60);
-			deck_imgview.setFitHeight(87);
+			deck_imgview.setFitWidth(78);
+			deck_imgview.setFitHeight(109);
 			Button deck_btn = new Button(null, deck_imgview);
 			deck_btn.setId("img-btn");
 			hb_pile.getChildren().add(deck_btn);
@@ -90,8 +89,8 @@ public class Game extends Application {
 			FileInputStream pile_input = new FileInputStream("src/img/" + discardPile.getName(0) + ".png");
 			Image pile_img = new Image(pile_input);
 			ImageView pile_imgview = new ImageView(pile_img);
-			pile_imgview.setFitWidth(60);
-			pile_imgview.setFitHeight(87);
+			pile_imgview.setFitWidth(78);
+			pile_imgview.setFitHeight(109);
 			hb_pile.getChildren().add(pile_imgview);
 
 			// Player Array
@@ -266,16 +265,17 @@ public class Game extends Application {
 	public void openCards(Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards, Player p3,
 			FlowPane p3HandCards, Player p4, FlowPane p4HandCards, Deck cardDeck, Deck discardPile, HBox pile,
 			Button btn) throws FileNotFoundException {
-		
 		p1HandCards.getChildren().clear();
-		System.out.println("----------------------------------");
-		System.out.println(discardPile.atIndex(0).getColor() + "_" + discardPile.atIndex(0).getSymbol());
-		System.out.println("----");
 		for (int i = 0; i < p1.getHandCards().length(); i++) {
-			int cardIndex=i;
-			Button imgbtn = new Button(null, p1.getHandCards().atIndex(cardIndex).getImage());
-			System.out.println(p1.getHandCards().atIndex(cardIndex).getColor() +"_"+p1.getHandCards().atIndex(cardIndex).getSymbol());
+			String s = p1.getHandCards().getName(i);
+			FileInputStream inputstream = new FileInputStream("src/img/" + s + ".png");
+			Image image = new Image(inputstream);
+			ImageView imageview = new ImageView(image);
+			imageview.setFitWidth(60);
+			imageview.setFitHeight(87);
+			Button imgbtn = new Button(null, imageview);
 			imgbtn.setId("img-btn");
+			imgbtn.getStyleClass().add(s.charAt(0) + "-" + s.charAt(2));
 			imgbtn.setOnMouseEntered(e -> {
 				imgbtn.setTranslateY(-15);
 			});
@@ -284,12 +284,18 @@ public class Game extends Application {
 			});
 			imgbtn.setOnMouseClicked(e -> {
 
-				if(p1.getHandCards().atIndex(cardIndex).checkPlayable(discardPile.atIndex(0))) {
+				String temp = imgbtn.getStyleClass().get(1).substring(0, 3);
+				Deck tempdeck = p1.getHandCards();
+				int tempindex = tempdeck.findIndexByName(temp);
+				if (tempdeck.atIndex(tempindex).checkPlayable(discardPile.atIndex(0))) {
 					p1HandCards.getChildren().remove(imgbtn);
-					discardPile.push(p1.getHandCards().pop(cardIndex));
-					pile.getChildren().remove(1);
-					pile.getChildren().add(discardPile.atIndex(0).getImage());
-					
+					discardPile.push(tempdeck.pop(tempdeck.findIndexByName(temp)));
+					String tempname = discardPile.getName(0);
+					try {
+						addChild(pile, tempname);
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
 					// Skip Function
 					if (discardPile.getList().get(0).getSymbol().equals("S")) {
 						try {
@@ -331,7 +337,7 @@ public class Game extends Application {
 						}
 					}
 				} else {
-					System.out.println("Cannot use this card!");
+					System.out.println("Cannot use this card!" + temp);
 				}
 			});
 			p1HandCards.getChildren().add(imgbtn);
@@ -436,9 +442,16 @@ public class Game extends Application {
 
 			try {
 				openCards(p1, p1HandCards, p2, p2HandCards, p3, p3HandCards, cardDeck, discardPile, pile, btn);
+
+				// closeCards(p1, p1HandCards);
 			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			// String tempname = p1.getHandCards().getName(0);
+
+			// p1HandCards.getChildren().add(arg0)
+
 		});
 
 	}
