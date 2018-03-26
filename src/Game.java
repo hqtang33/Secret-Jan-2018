@@ -268,13 +268,9 @@ public class Game extends Application {
 			Button btn) throws FileNotFoundException {
 		
 		p1HandCards.getChildren().clear();
-		System.out.println("----------------------------------");
-		System.out.println(discardPile.atIndex(0).getColor() + "_" + discardPile.atIndex(0).getSymbol());
-		System.out.println("----");
 		for (int i = 0; i < p1.getHandCards().length(); i++) {
 			int cardIndex=i;
 			Button imgbtn = new Button(null, p1.getHandCards().atIndex(cardIndex).getImage());
-			System.out.println(p1.getHandCards().atIndex(cardIndex).getColor() +"_"+p1.getHandCards().atIndex(cardIndex).getSymbol());
 			imgbtn.setId("img-btn");
 			imgbtn.setOnMouseEntered(e -> {
 				imgbtn.setTranslateY(-15);
@@ -287,8 +283,6 @@ public class Game extends Application {
 				if(p1.getHandCards().atIndex(cardIndex).checkPlayable(discardPile.atIndex(0))) {
 					p1HandCards.getChildren().remove(imgbtn);
 					discardPile.push(p1.getHandCards().pop(cardIndex));
-					pile.getChildren().remove(1);
-					pile.getChildren().add(discardPile.atIndex(0).getImage());
 					
 					// Skip Function
 					if (discardPile.getList().get(0).getSymbol().equals("S")) {
@@ -330,6 +324,9 @@ public class Game extends Application {
 							e1.printStackTrace();
 						}
 					}
+					pile.getChildren().remove(1);
+					pile.getChildren().add(discardPile.atIndex(0).getImage());
+
 				} else {
 					System.out.println("Cannot use this card!");
 				}
@@ -338,12 +335,13 @@ public class Game extends Application {
 		}
 
 		btn.setOnMouseClicked(e -> {
-			System.out.println("ok");
-			if (discardPile.length() > 5) {
-				for (int i = 5; i > 0; i--) {
+			System.out.println(cardDeck.length());
+			discardPile.displayCards();
+			if (discardPile.length() > 20) {
+				for (int i = 20; i > 0; i--) {
 					cardDeck.push(discardPile.pop(discardPile.length() - 1));
 				}
-				discardPile.ShuffleCards();
+				cardDeck.ShuffleCards();
 			}
 			p1.getHandCards().push(cardDeck.pop(0));
 			p1.getHandCards().sort();
@@ -528,18 +526,10 @@ public class Game extends Application {
 
 			try {
 				openCards(p1, p1HandCards, p2, p2HandCards, cardDeck, discardPile, pile, btn);
-
-				// closeCards(p1, p1HandCards);
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			// String tempname = p1.getHandCards().getName(0);
-
-			// p1HandCards.getChildren().add(arg0)
-
 		});
-
 	}
 
 	public static void main(String args[]) {
