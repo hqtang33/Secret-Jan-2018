@@ -74,7 +74,7 @@ public class Card implements Comparable<Card> {
 	}
 
 	public boolean checkPlayable(Card c) {
-		if (color.equals(new String(c.getColor())) || symbol.equals(new String(c.getSymbol()))||this.getColor()=="W") 
+		if (color.equals(new String(c.getColor())) || symbol.equals(new String(c.getSymbol()))||this.getColor()=="W"||c.getColor()=="W") 
 			return true;
 		return false;
 	}
