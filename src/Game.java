@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -170,7 +171,7 @@ public class Game extends Application {
 		void createGUI() throws FileNotFoundException {
 
 			setPrefSize(1024, 768);
-			setStyle("-fx-background-color : rgba(183,14,163) ;-fx-font-size:50;-text-fill:black");
+			setStyle("-fx-background-color : rgb(74,20,140) ;-fx-font-size:50;-text-fill:black");
 
 			VBox menubox = new VBox();
 
@@ -181,8 +182,9 @@ public class Game extends Application {
 			menubox.getChildren().add(menu_imgview);
 
 			Button TwoPlayerBtn = new Button("TWO PLAYER");
-			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			TwoPlayerBtn.setId("menu-btn");
+			TwoPlayerBtn.setMinWidth(250);
 
 			TwoPlayerBtn.setOnMouseEntered(e -> {
 				TwoPlayerBtn.setTranslateX(20);
@@ -199,8 +201,9 @@ public class Game extends Application {
 			menubox.getChildren().add(TwoPlayerBtn);
 
 			Button ThreePlayerBtn = new Button("THREE PLAYER");
-			ThreePlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			ThreePlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			ThreePlayerBtn.setId("menu-btn");
+			ThreePlayerBtn.setMinWidth(250);
 
 			ThreePlayerBtn.setOnMouseEntered(e -> {
 				ThreePlayerBtn.setTranslateX(20);
@@ -213,8 +216,9 @@ public class Game extends Application {
 			menubox.getChildren().add(ThreePlayerBtn);
 
 			Button FourPlayerBtn = new Button("FOUR PLAYER");
-			FourPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			FourPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			FourPlayerBtn.setId("menu-btn");
+			FourPlayerBtn.setMinWidth(250);
 
 			FourPlayerBtn.setOnMouseEntered(e -> {
 				FourPlayerBtn.setTranslateX(20);
@@ -225,9 +229,10 @@ public class Game extends Application {
 			});
 			menubox.getChildren().add(FourPlayerBtn);
 
-			Button btnEnd = new Button("Exit");
-			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+			Button btnEnd = new Button("EXIT GAME");
+			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			btnEnd.setId("menu-btn");
+			btnEnd.setMinWidth(250);
 			btnEnd.setOnAction(e -> Platform.exit());
 
 			btnEnd.setOnMouseEntered(e -> {
@@ -242,6 +247,75 @@ public class Game extends Application {
 			menubox.setSpacing(30);
 			setCenter(menubox);
 			BorderPane.setAlignment(menubox, Pos.CENTER);
+
+		}
+
+	}
+	
+	private class Win extends SwitchView {
+
+		public Win(SwitchView next) throws FileNotFoundException {
+			super(next);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		void createGUI() throws FileNotFoundException {
+
+			setPrefSize(1024, 768);
+			setStyle("-fx-background-color : rgb(0,145,234) ;-fx-font-size:50;-text-fill:black");
+
+			VBox winbox = new VBox();
+
+			FileInputStream win_input = new FileInputStream("src/img/t.png");
+			Image win_img = new Image(win_input);
+			ImageView win_imgview = new ImageView(win_img);
+			Text winner=new Text("YOU WIN!!!!");
+
+			
+
+			Button PlayAgainBtn = new Button("Play again");
+			PlayAgainBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
+			PlayAgainBtn.setId("menu-btn");
+			PlayAgainBtn.setMinWidth(250);
+
+			PlayAgainBtn.setOnMouseEntered(e -> {
+				PlayAgainBtn.setTranslateX(20);
+			});
+
+			PlayAgainBtn.setOnMouseExited(e -> {
+				PlayAgainBtn.setTranslateX(0);
+			});
+
+			PlayAgainBtn.setOnMouseClicked(e -> {
+				callNext();
+			});
+
+			Button EndBtn = new Button("Exit game");
+			EndBtn.setMinWidth(250);
+			EndBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
+			EndBtn.setId("menu-btn");
+			EndBtn.setOnAction(e -> Platform.exit());
+
+			EndBtn.setOnMouseEntered(e -> {
+				EndBtn.setTranslateX(20);
+			});
+
+			EndBtn.setOnMouseExited(e -> {
+				EndBtn.setTranslateX(0);
+			});
+			
+			HBox winhbox=new HBox();
+			//EndBtn.setMinWidth(20);
+			winhbox.getChildren().addAll(PlayAgainBtn,EndBtn);
+			winhbox.setSpacing(100);
+			winhbox.setAlignment(Pos.CENTER);
+			winbox.getChildren().addAll(win_imgview, winner, winhbox);
+			
+			winbox.setAlignment(Pos.CENTER);
+			winbox.setSpacing(30);
+			setCenter(winbox);
+			BorderPane.setAlignment(winbox, Pos.CENTER);
 
 		}
 
@@ -547,8 +621,9 @@ public class Game extends Application {
 	@Override
 	public void start(Stage primaryStage) throws FileNotFoundException {
 		// Game
-		SwitchView test = new PlayGame(null);
-		SwitchView main = new MainMenu(test);
+		SwitchView game = new PlayGame(null);
+		SwitchView main = new MainMenu(game);
+		SwitchView win 	= new Win(main);
 
 		Scene scene = new Scene(main, 1600, 768);
 		scene.getStylesheets().add("style.css");
