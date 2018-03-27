@@ -66,7 +66,6 @@ public class Game extends Application {
 		void createGUI() throws FileNotFoundException {
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
-
 			HBox hb_pile = new HBox();
 			hb_pile.setSpacing(20);
 
@@ -88,13 +87,6 @@ public class Game extends Application {
 			Button deck_btn = new Button(null, deck_imgview);
 			deck_btn.setId("img-btn");
 			hb_pile.getChildren().add(deck_btn);
-
-			FileInputStream pile_input = new FileInputStream("src/img/" + discardPile.getName(0) + ".png");
-			Image pile_img = new Image(pile_input);
-			ImageView pile_imgview = new ImageView(pile_img);
-			pile_imgview.setFitWidth(60);
-			pile_imgview.setFitHeight(87);
-			hb_pile.getChildren().add(pile_imgview);
 
 			// Player Array
 			int n = 4;
@@ -140,7 +132,6 @@ public class Game extends Application {
 			openCards(players[0], FlowPaneArray[0], players[1], FlowPaneArray[1], players[2], FlowPaneArray[2],
 					players[3], FlowPaneArray[3], cardDeck, discardPile, hb_pile, deck_btn);
 
-
 			hb_pile.setAlignment(Pos.CENTER);
 			setCenter(hb_pile);
 			BorderPane.setMargin(hb_pile, new Insets(10, 0, 20, 0));
@@ -157,7 +148,7 @@ public class Game extends Application {
 		@Override
 		void createGUI() throws FileNotFoundException {
 			setPrefSize(1024, 768);
-			setStyle("-fx-background-color : rgb(74,20,140) ;-fx-font-size:50;-text-fill:black");
+			setStyle("-fx-background-color : rgb(69,39,160) ;-fx-font-size:50;-text-fill:black");
 
 			VBox menubox = new VBox();
 
@@ -167,18 +158,10 @@ public class Game extends Application {
 
 			menubox.getChildren().add(menu_imgview);
 
-			Button TwoPlayerBtn = new Button("TWO PLAYER");
+			Button TwoPlayerBtn = new Button("2 PLAYER");
 			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			TwoPlayerBtn.setId("menu-btn");
 			TwoPlayerBtn.setMinWidth(250);
-
-			TwoPlayerBtn.setOnMouseEntered(e -> {
-				TwoPlayerBtn.setTranslateX(20);
-			});
-
-			TwoPlayerBtn.setOnMouseExited(e -> {
-				TwoPlayerBtn.setTranslateX(0);
-			});
 
 			TwoPlayerBtn.setOnMouseClicked(e -> {
 				callNext();
@@ -186,33 +169,17 @@ public class Game extends Application {
 
 			menubox.getChildren().add(TwoPlayerBtn);
 
-			Button ThreePlayerBtn = new Button("THREE PLAYER");
+			Button ThreePlayerBtn = new Button("3 PLAYER");
 			ThreePlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			ThreePlayerBtn.setId("menu-btn");
 			ThreePlayerBtn.setMinWidth(250);
 
-			ThreePlayerBtn.setOnMouseEntered(e -> {
-				ThreePlayerBtn.setTranslateX(20);
-			});
-
-			ThreePlayerBtn.setOnMouseExited(e -> {
-				ThreePlayerBtn.setTranslateX(0);
-			});
-
 			menubox.getChildren().add(ThreePlayerBtn);
 
-			Button FourPlayerBtn = new Button("FOUR PLAYER");
+			Button FourPlayerBtn = new Button("4 PLAYER");
 			FourPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			FourPlayerBtn.setId("menu-btn");
 			FourPlayerBtn.setMinWidth(250);
-
-			FourPlayerBtn.setOnMouseEntered(e -> {
-				FourPlayerBtn.setTranslateX(20);
-			});
-
-			FourPlayerBtn.setOnMouseExited(e -> {
-				FourPlayerBtn.setTranslateX(0);
-			});
 			menubox.getChildren().add(FourPlayerBtn);
 
 			Button btnEnd = new Button("EXIT GAME");
@@ -221,13 +188,6 @@ public class Game extends Application {
 			btnEnd.setMinWidth(250);
 			btnEnd.setOnAction(e -> Platform.exit());
 
-			btnEnd.setOnMouseEntered(e -> {
-				btnEnd.setTranslateX(20);
-			});
-
-			btnEnd.setOnMouseExited(e -> {
-				btnEnd.setTranslateX(0);
-			});
 			menubox.getChildren().add(btnEnd);
 			menubox.setAlignment(Pos.CENTER);
 			menubox.setSpacing(30);
@@ -237,12 +197,11 @@ public class Game extends Application {
 		}
 
 	}
-	
+
 	private class Win extends SwitchView {
 
 		public Win(SwitchView next) throws FileNotFoundException {
 			super(next);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -256,22 +215,12 @@ public class Game extends Application {
 			FileInputStream win_input = new FileInputStream("src/img/t.png");
 			Image win_img = new Image(win_input);
 			ImageView win_imgview = new ImageView(win_img);
-			Text winner=new Text("YOU WIN!!!!");
-
-			
+			Text winner = new Text("YOU WIN!!!!");
 
 			Button PlayAgainBtn = new Button("Play again");
 			PlayAgainBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
-			PlayAgainBtn.setId("menu-btn");
+			PlayAgainBtn.setId("win-btn");
 			PlayAgainBtn.setMinWidth(250);
-
-			PlayAgainBtn.setOnMouseEntered(e -> {
-				PlayAgainBtn.setTranslateX(20);
-			});
-
-			PlayAgainBtn.setOnMouseExited(e -> {
-				PlayAgainBtn.setTranslateX(0);
-			});
 
 			PlayAgainBtn.setOnMouseClicked(e -> {
 				callNext();
@@ -280,24 +229,16 @@ public class Game extends Application {
 			Button EndBtn = new Button("Exit game");
 			EndBtn.setMinWidth(250);
 			EndBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
-			EndBtn.setId("menu-btn");
+			EndBtn.setId("win-btn");
 			EndBtn.setOnAction(e -> Platform.exit());
 
-			EndBtn.setOnMouseEntered(e -> {
-				EndBtn.setTranslateX(20);
-			});
-
-			EndBtn.setOnMouseExited(e -> {
-				EndBtn.setTranslateX(0);
-			});
-			
-			HBox winhbox=new HBox();
-			//EndBtn.setMinWidth(20);
-			winhbox.getChildren().addAll(PlayAgainBtn,EndBtn);
+			HBox winhbox = new HBox();
+			// EndBtn.setMinWidth(20);
+			winhbox.getChildren().addAll(PlayAgainBtn, EndBtn);
 			winhbox.setSpacing(100);
 			winhbox.setAlignment(Pos.CENTER);
 			winbox.getChildren().addAll(win_imgview, winner, winhbox);
-			
+
 			winbox.setAlignment(Pos.CENTER);
 			winbox.setSpacing(30);
 			setCenter(winbox);
@@ -328,10 +269,29 @@ public class Game extends Application {
 			Button btn) throws FileNotFoundException {
 
 		p1HandCards.getChildren().clear();
+		pile.getChildren().clear();
+		Button discardPileCard = new Button(null, discardPile.atIndex(0).getImage());
+		discardPileCard.setId("wild-card-wild");
+		if (discardPile.atIndex(0).getSymbol().equals(new String("C")) || discardPile.atIndex(0).getSymbol().equals(new String("F"))) {
+			if (discardPile.atIndex(0).getColor().equals(new String("R")))
+				discardPileCard.setId("wild-card-red");
+			else if (discardPile.atIndex(0).getColor().equals(new String("B")))
+				discardPileCard.setId("wild-card-blue");
+			else if (discardPile.atIndex(0).getColor().equals(new String("G")))
+				discardPileCard.setId("wild-card-green");
+			else {
+				discardPileCard.setId("wild-card-yellow");
+				System.out.print("this");
+			}
+		}
+		pile.getChildren().addAll(btn, discardPileCard);
+
 		for (int i = 0; i < p1.getHandCards().length(); i++) {
 			int cardIndex = i;
 			Button imgbtn = new Button(null, p1.getHandCards().atIndex(cardIndex).getImage());
 			imgbtn.setId("img-btn");
+			if (p1.getHandCards().atIndex(cardIndex).getSymbol().equals(new String("C"))) // Here
+				p1.getHandCards().atIndex(cardIndex).setColor("W");
 			imgbtn.setOnMouseEntered(e -> {
 				imgbtn.setTranslateY(-15);
 			});
@@ -375,95 +335,127 @@ public class Game extends Application {
 							e1.printStackTrace();
 						}
 						// Wild Color
-					} else if (discardPile.getList().get(0).getSymbol().equals("C")) {
-						try {
-							StackPane chooseColor = displayChooseColor();
-							//-------------------------------------
-							StackPane wildColor = new StackPane();
-							Arc red = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 0.0f, 90.0f);
-							red.setFill(Color.rgb(244, 67, 54));
-							red.setType(ArcType.ROUND);
+					} else if (discardPile.getList().get(0).getSymbol().equals("C") || discardPile.getList().get(0).getSymbol().equals("F")) {
+						StackPane wildColor = new StackPane();
+						Arc red = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 0.0f, 90.0f);
+						red.setFill(Color.rgb(244, 67, 54));
+						red.setType(ArcType.ROUND);
+						red.setTranslateX(60);
+						red.setTranslateY(-60);
+
+						red.setOnMouseEntered(e1 -> {
+							red.setTranslateX(70);
+							red.setTranslateY(-70);
+						});
+						red.setOnMouseExited(e1 -> {
 							red.setTranslateX(60);
 							red.setTranslateY(-60);
+						});
 
-							red.setOnMouseEntered(e1 -> {
-								red.setTranslateX(70);
-								red.setTranslateY(-70);
-							});
-							red.setOnMouseExited(e1 -> {
-								red.setTranslateX(60);
-								red.setTranslateY(-60);
-							});
-							
-							red.setOnMouseClicked(e1 ->{
-								setWildColor(discardPile, "R");
-							});
+						red.setOnMouseClicked(e1 -> {
+							setWildColor(discardPile, "R");
+							try {
+								openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
+										discardPile, pile, btn);
+								closeCards(p1, p1HandCards);
+							} catch (FileNotFoundException e2) {
+								e2.printStackTrace();
+							}
+						});
 
-							Arc green = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 90.0f, 90.0f);
-							green.setFill(Color.rgb(105, 240, 174));
-							green.setType(ArcType.ROUND);
+						Arc green = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 90.0f, 90.0f);
+						green.setFill(Color.rgb(105, 240, 174));
+						green.setType(ArcType.ROUND);
+						green.setTranslateX(-60);
+						green.setTranslateY(-60);
+
+						green.setOnMouseEntered(e1 -> {
+							green.setTranslateX(-70);
+							green.setTranslateY(-70);
+						});
+						green.setOnMouseExited(e1 -> {
 							green.setTranslateX(-60);
 							green.setTranslateY(-60);
+						});
+						green.setOnMouseClicked(e1 -> {
+							setWildColor(discardPile, "G");
+							try {
+								if(discardPile.atIndex(0).getSymbol().equals(new String("F"))) {
+									p2.drawCard(cardDeck);
+									p2.drawCard(cardDeck);
+									p2.drawCard(cardDeck);
+									p2.drawCard(cardDeck);
+									closeCards(p2, p2HandCards);
+									openCards(p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, p2, p2HandCards, cardDeck,
+											discardPile, pile, btn);
+									closeCards(p1, p1HandCards);
+								} else {
+									openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
+											discardPile, pile, btn);
+									closeCards(p1, p1HandCards);
 
-							green.setOnMouseEntered(e1 -> {
-								green.setTranslateX(-70);
-								green.setTranslateY(-70);
-							});
-							green.setOnMouseExited(e1 -> {
-								green.setTranslateX(-60);
-								green.setTranslateY(-60);
-							});
-							green.setOnMouseClicked(e1 ->{
-								setWildColor(discardPile, "G");
-							});
+								}
+							} catch (FileNotFoundException e2) {
+								e2.printStackTrace();
+							}
+						});
 
-							Arc blue = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 180.0f, 90.0f);
-							blue.setFill(Color.rgb(79, 195, 247));
-							blue.setType(ArcType.ROUND);
+						Arc blue = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 180.0f, 90.0f);
+						blue.setFill(Color.rgb(79, 195, 247));
+						blue.setType(ArcType.ROUND);
+						blue.setTranslateX(-60);
+						blue.setTranslateY(60);
+
+						blue.setOnMouseEntered(e1 -> {
+							blue.setTranslateX(-70);
+							blue.setTranslateY(70);
+						});
+						blue.setOnMouseExited(e1 -> {
 							blue.setTranslateX(-60);
 							blue.setTranslateY(60);
+						});
+						blue.setOnMouseClicked(e1 -> {
+							setWildColor(discardPile, "B");
+							try {
+								openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
+										discardPile, pile, btn);
+								closeCards(p1, p1HandCards);
+							} catch (FileNotFoundException e2) {
+								e2.printStackTrace();
+							}
+							
+						});
 
-							blue.setOnMouseEntered(e1 -> {
-								blue.setTranslateX(-70);
-								blue.setTranslateY(70);
-							});
-							blue.setOnMouseExited(e1 -> {
-								blue.setTranslateX(-60);
-								blue.setTranslateY(60);
-							});
-							blue.setOnMouseClicked(e1 ->{
-								setWildColor(discardPile, "B");
-							});
+						Arc yellow = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 270.0f, 90.0f);
+						yellow.setFill(Color.rgb(255, 238, 88));
+						yellow.setType(ArcType.ROUND);
+						yellow.setTranslateX(60);
+						yellow.setTranslateY(60);
 
-							Arc yellow = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 270.0f, 90.0f);
-							yellow.setFill(Color.rgb(255, 238, 88));
-							yellow.setType(ArcType.ROUND);
+						yellow.setOnMouseEntered(e1 -> {
+							yellow.setTranslateX(70);
+							yellow.setTranslateY(70);
+						});
+						yellow.setOnMouseExited(e1 -> {
 							yellow.setTranslateX(60);
 							yellow.setTranslateY(60);
+						});
+						yellow.setOnMouseClicked(e1 -> {
+							setWildColor(discardPile, "Y");
+							try {
+								openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
+										discardPile, pile, btn);
+								closeCards(p1, p1HandCards);
+							} catch (FileNotFoundException e2) {
+								e2.printStackTrace();
+							}
+						});
 
-							yellow.setOnMouseEntered(e1 -> {
-								yellow.setTranslateX(70);
-								yellow.setTranslateY(70);
-							});
-							yellow.setOnMouseExited(e1 -> {
-								yellow.setTranslateX(60);
-								yellow.setTranslateY(60);
-							});
-							blue.setOnMouseClicked(e1 ->{
-								setWildColor(discardPile, "Y");
-							});
-							
-							wildColor.getChildren().addAll(blue, green, red, yellow);
-							wildColor.setAlignment(Pos.CENTER);
-							
-							//--------------------------------------
-							
-							openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
-									discardPile, pile, btn);
-							closeCards(p1, p1HandCards);
-						} catch (FileNotFoundException e1) {
-							e1.printStackTrace();
-						}
+						wildColor.getChildren().addAll(blue, green, red, yellow);
+						wildColor.setAlignment(Pos.CENTER);
+
+						pile.getChildren().clear();
+						pile.getChildren().add(wildColor);
 
 					} else {
 						try {
@@ -474,16 +466,12 @@ public class Game extends Application {
 							e1.printStackTrace();
 						}
 					}
-					pile.getChildren().remove(1);
-					pile.getChildren().add(discardPile.atIndex(0).getImage());
-
 				} else {
 					System.out.println("Cannot use this card!");
 				}
 			});
 			p1HandCards.getChildren().add(imgbtn);
 		}
-
 		btn.setOnMouseClicked(e -> {
 			System.out.println(cardDeck.length());
 			discardPile.displayCards();
@@ -699,9 +687,10 @@ public class Game extends Application {
 		// Game
 		SwitchView game = new PlayGame(null);
 		SwitchView main = new MainMenu(game);
-		SwitchView win 	= new Win(main);
+		SwitchView win = new Win(main);
 
-		Scene scene = new Scene(main, 1600, 768);
+		Scene scene = new Scene(win, 1600, 768);
+		scene.getStylesheets().clear();
 		scene.getStylesheets().add("style.css");
 		primaryStage.setMinWidth(1024);
 		primaryStage.setMinHeight(768);
@@ -727,7 +716,7 @@ public class Game extends Application {
 		super.stop();
 		System.out.println("Inside stop() method! Destroy resources. Perform Cleanup.");
 	}
-	
+
 	public StackPane displayChooseColor() {
 		StackPane wildColor = new StackPane();
 		Arc red = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 0.0f, 90.0f);
@@ -791,11 +780,8 @@ public class Game extends Application {
 		});
 		wildColor.getChildren().addAll(blue, green, red, yellow);
 		wildColor.setAlignment(Pos.CENTER);
-		
 		return wildColor;
-
 	}
-	
 	public void setWildColor(Deck discardPile, String color) {
 		discardPile.getList().get(0).setColor(color);
 	}
