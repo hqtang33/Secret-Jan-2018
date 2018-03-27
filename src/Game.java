@@ -30,6 +30,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -75,7 +77,6 @@ public class Game extends Application {
 			cardDeck.ShuffleCards();
 
 			discardPile.push(cardDeck.pop(0));
-			
 
 			// Deck GUI
 			FileInputStream deck_input = new FileInputStream("src/img/card_back.png");
@@ -138,22 +139,9 @@ public class Game extends Application {
 			openCards(players[0], FlowPaneArray[0], players[1], FlowPaneArray[1], players[2], FlowPaneArray[2],
 					players[3], FlowPaneArray[3], cardDeck, discardPile, hb_pile, deck_btn);
 
-			// StackPane wildColor = new StackPane();
-			// Circle red = new Circle(100,100, _height, Color.RED);
-			//
-			// Circle green = new Circle(100,100, Color.GREEN);
-			// Circle blue = new Circle(100,100, Color.BLUE);
-			// Rectangle yellow = new Rectangle();
-			// green.setTranslateX(100);
-			// blue.setTranslateY(100);
-			// yellow.setTranslateX(100);
-			// yellow.setTranslateY(100);
-			// wildColor.getChildren().addAll(red, green, blue, yellow);
 
 			hb_pile.setAlignment(Pos.CENTER);
 			setCenter(hb_pile);
-			// wildColor.setAlignment(Pos.CENTER);
-			// setCenter(wildColor);
 			BorderPane.setMargin(hb_pile, new Insets(10, 0, 20, 0));
 
 		}
@@ -163,12 +151,10 @@ public class Game extends Application {
 
 		public MainMenu(SwitchView next) throws FileNotFoundException {
 			super(next);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		void createGUI() throws FileNotFoundException {
-
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color : rgba(183,14,163) ;-fx-font-size:50;-text-fill:black");
 
@@ -266,10 +252,10 @@ public class Game extends Application {
 	public void openCards(Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards, Player p3,
 			FlowPane p3HandCards, Player p4, FlowPane p4HandCards, Deck cardDeck, Deck discardPile, HBox pile,
 			Button btn) throws FileNotFoundException {
-		
+
 		p1HandCards.getChildren().clear();
 		for (int i = 0; i < p1.getHandCards().length(); i++) {
-			int cardIndex=i;
+			int cardIndex = i;
 			Button imgbtn = new Button(null, p1.getHandCards().atIndex(cardIndex).getImage());
 			imgbtn.setId("img-btn");
 			imgbtn.setOnMouseEntered(e -> {
@@ -280,10 +266,10 @@ public class Game extends Application {
 			});
 			imgbtn.setOnMouseClicked(e -> {
 
-				if(p1.getHandCards().atIndex(cardIndex).checkPlayable(discardPile.atIndex(0))) {
+				if (p1.getHandCards().atIndex(cardIndex).checkPlayable(discardPile.atIndex(0))) {
 					p1HandCards.getChildren().remove(imgbtn);
 					discardPile.push(p1.getHandCards().pop(cardIndex));
-					
+
 					// Skip Function
 					if (discardPile.getList().get(0).getSymbol().equals("S")) {
 						try {
@@ -309,6 +295,96 @@ public class Game extends Application {
 							p2.drawCard(cardDeck);
 							closeCards(p2, p2HandCards);
 							openCards(p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, p2, p2HandCards, cardDeck,
+									discardPile, pile, btn);
+							closeCards(p1, p1HandCards);
+						} catch (FileNotFoundException e1) {
+							e1.printStackTrace();
+						}
+						// Wild Color
+					} else if (discardPile.getList().get(0).getSymbol().equals("C")) {
+						try {
+							StackPane chooseColor = displayChooseColor();
+							//-------------------------------------
+							StackPane wildColor = new StackPane();
+							Arc red = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 0.0f, 90.0f);
+							red.setFill(Color.rgb(244, 67, 54));
+							red.setType(ArcType.ROUND);
+							red.setTranslateX(60);
+							red.setTranslateY(-60);
+
+							red.setOnMouseEntered(e1 -> {
+								red.setTranslateX(70);
+								red.setTranslateY(-70);
+							});
+							red.setOnMouseExited(e1 -> {
+								red.setTranslateX(60);
+								red.setTranslateY(-60);
+							});
+							
+							red.setOnMouseClicked(e1 ->{
+								setWildColor(discardPile, "R");
+							});
+
+							Arc green = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 90.0f, 90.0f);
+							green.setFill(Color.rgb(105, 240, 174));
+							green.setType(ArcType.ROUND);
+							green.setTranslateX(-60);
+							green.setTranslateY(-60);
+
+							green.setOnMouseEntered(e1 -> {
+								green.setTranslateX(-70);
+								green.setTranslateY(-70);
+							});
+							green.setOnMouseExited(e1 -> {
+								green.setTranslateX(-60);
+								green.setTranslateY(-60);
+							});
+							green.setOnMouseClicked(e1 ->{
+								setWildColor(discardPile, "G");
+							});
+
+							Arc blue = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 180.0f, 90.0f);
+							blue.setFill(Color.rgb(79, 195, 247));
+							blue.setType(ArcType.ROUND);
+							blue.setTranslateX(-60);
+							blue.setTranslateY(60);
+
+							blue.setOnMouseEntered(e1 -> {
+								blue.setTranslateX(-70);
+								blue.setTranslateY(70);
+							});
+							blue.setOnMouseExited(e1 -> {
+								blue.setTranslateX(-60);
+								blue.setTranslateY(60);
+							});
+							blue.setOnMouseClicked(e1 ->{
+								setWildColor(discardPile, "B");
+							});
+
+							Arc yellow = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 270.0f, 90.0f);
+							yellow.setFill(Color.rgb(255, 238, 88));
+							yellow.setType(ArcType.ROUND);
+							yellow.setTranslateX(60);
+							yellow.setTranslateY(60);
+
+							yellow.setOnMouseEntered(e1 -> {
+								yellow.setTranslateX(70);
+								yellow.setTranslateY(70);
+							});
+							yellow.setOnMouseExited(e1 -> {
+								yellow.setTranslateX(60);
+								yellow.setTranslateY(60);
+							});
+							blue.setOnMouseClicked(e1 ->{
+								setWildColor(discardPile, "Y");
+							});
+							
+							wildColor.getChildren().addAll(blue, green, red, yellow);
+							wildColor.setAlignment(Pos.CENTER);
+							
+							//--------------------------------------
+							
+							openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck,
 									discardPile, pile, btn);
 							closeCards(p1, p1HandCards);
 						} catch (FileNotFoundException e1) {
@@ -575,6 +651,78 @@ public class Game extends Application {
 	public void stop() throws Exception {
 		super.stop();
 		System.out.println("Inside stop() method! Destroy resources. Perform Cleanup.");
+	}
+	
+	public StackPane displayChooseColor() {
+		StackPane wildColor = new StackPane();
+		Arc red = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 0.0f, 90.0f);
+		red.setFill(Color.rgb(244, 67, 54));
+		red.setType(ArcType.ROUND);
+		red.setTranslateX(60);
+		red.setTranslateY(-60);
+
+		red.setOnMouseEntered(e -> {
+			red.setTranslateX(70);
+			red.setTranslateY(-70);
+		});
+		red.setOnMouseExited(e -> {
+			red.setTranslateX(60);
+			red.setTranslateY(-60);
+		});
+
+		Arc green = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 90.0f, 90.0f);
+		green.setFill(Color.rgb(105, 240, 174));
+		green.setType(ArcType.ROUND);
+		green.setTranslateX(-60);
+		green.setTranslateY(-60);
+
+		green.setOnMouseEntered(e -> {
+			green.setTranslateX(-70);
+			green.setTranslateY(-70);
+		});
+		green.setOnMouseExited(e -> {
+			green.setTranslateX(-60);
+			green.setTranslateY(-60);
+		});
+
+		Arc blue = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 180.0f, 90.0f);
+		blue.setFill(Color.rgb(79, 195, 247));
+		blue.setType(ArcType.ROUND);
+		blue.setTranslateX(-60);
+		blue.setTranslateY(60);
+
+		blue.setOnMouseEntered(e -> {
+			blue.setTranslateX(-70);
+			blue.setTranslateY(70);
+		});
+		blue.setOnMouseExited(e -> {
+			blue.setTranslateX(-60);
+			blue.setTranslateY(60);
+		});
+
+		Arc yellow = new Arc(100.0f, 100.0f, 120.0f, 120.0f, 270.0f, 90.0f);
+		yellow.setFill(Color.rgb(255, 238, 88));
+		yellow.setType(ArcType.ROUND);
+		yellow.setTranslateX(60);
+		yellow.setTranslateY(60);
+
+		yellow.setOnMouseEntered(e -> {
+			yellow.setTranslateX(70);
+			yellow.setTranslateY(70);
+		});
+		yellow.setOnMouseExited(e -> {
+			yellow.setTranslateX(60);
+			yellow.setTranslateY(60);
+		});
+		wildColor.getChildren().addAll(blue, green, red, yellow);
+		wildColor.setAlignment(Pos.CENTER);
+		
+		return wildColor;
+
+	}
+	
+	public void setWildColor(Deck discardPile, String color) {
+		discardPile.getList().get(0).setColor(color);
 	}
 
 }

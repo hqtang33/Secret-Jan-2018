@@ -19,3 +19,9 @@
 	-fx-background-radius: 5,5,4;
 	-fx-padding: 15 25 15 25;
 }
+
+#wild-btn {
+	-fx-background-color: transparent;
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
