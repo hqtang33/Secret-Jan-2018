@@ -30,7 +30,7 @@ public class MainMenu extends SwitchView {
 
 			menubox.getChildren().add(menu_imgview);
 
-			Button TwoPlayerBtn = new Button("2 PLAYER");
+			Button TwoPlayerBtn = new Button("PLAY GAME!");
 			TwoPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			TwoPlayerBtn.setId("menu-btn");
 			TwoPlayerBtn.setMinWidth(250);
@@ -41,19 +41,7 @@ public class MainMenu extends SwitchView {
 
 			menubox.getChildren().add(TwoPlayerBtn);
 
-			Button ThreePlayerBtn = new Button("3 PLAYER");
-			ThreePlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-			ThreePlayerBtn.setId("menu-btn");
-			ThreePlayerBtn.setMinWidth(250);
-
-			menubox.getChildren().add(ThreePlayerBtn);
-
-			Button FourPlayerBtn = new Button("4 PLAYER");
-			FourPlayerBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-			FourPlayerBtn.setId("menu-btn");
-			FourPlayerBtn.setMinWidth(250);
-			menubox.getChildren().add(FourPlayerBtn);
-
+			
 			Button btnEnd = new Button("EXIT GAME");
 			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			btnEnd.setId("menu-btn");
