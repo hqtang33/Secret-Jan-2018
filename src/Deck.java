@@ -108,6 +108,13 @@ public class Deck {
 	public void sort() {
 		Collections.sort(cardDeck, (c1, c2) -> c1.compareBigger(c2));
 	}
-	
+	public boolean isEmpty() {
+
+		if (cardDeck.isEmpty())
+			return true;
+		else
+			return false;
+
+	}
 
 }

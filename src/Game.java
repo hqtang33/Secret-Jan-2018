@@ -69,6 +69,7 @@ public class Game extends Application {
 			HBox hb_pile = new HBox();
 			hb_pile.setSpacing(20);
 			
+			
 			// Deck Declaration
 			Deck cardDeck = new Deck();
 			Deck discardPile = new Deck();
@@ -158,6 +159,8 @@ public class Game extends Application {
 				Button choose_player_btn = new Button(null, choose_player_imgview);
 				choose_player_btn.setId("img-btn");
 				choosePlayerNum.getChildren().add(choose_player_btn);
+				
+				
 				
 				choose_player_btn.setOnAction(e -> {
 					try {
@@ -487,7 +490,6 @@ public class Game extends Application {
 	// Overloaded for 3 Players
 	public void openCards(Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards, Player p3,
 			FlowPane p3HandCards, Deck cardDeck, Deck discardPile, HBox pile, Button btn) throws FileNotFoundException {
-
 		p1HandCards.getChildren().clear();
 		pile.getChildren().clear();
 		Button discardPileCard = new Button(null, discardPile.atIndex(0).getImage());
@@ -931,6 +933,13 @@ public class Game extends Application {
 
 	public void setWildColor(Deck discardPile, String color) {
 		discardPile.getList().get(0).setColor(color);
+	}
+	
+	public boolean checkWin(Player p1, Player p2, Player p3, Player p4) {
+		if(p1.getHandCards().isEmpty() || p2.getHandCards().isEmpty() || p3.getHandCards().isEmpty() || p4.getHandCards().isEmpty())
+			return true;
+		return false;
+			
 	}
 
 }
