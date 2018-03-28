@@ -27,7 +27,6 @@ public class PlayGame extends SwitchView {
 		
 		private void createGameUI(int n) throws FileNotFoundException {
 			setManaged(true);
-			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
 			HBox hb_pile = new HBox();
 			hb_pile.setSpacing(20);
@@ -37,6 +36,7 @@ public class PlayGame extends SwitchView {
 			Deck cardDeck = new Deck();
 			Deck discardPile = new Deck();
 
+			System.out.println("New round");
 			cardDeck.initializeCards();
 			cardDeck.ShuffleCards();
 
