@@ -33,15 +33,6 @@ public class DisplayWin extends SwitchView {
 			ImageView win_imgview = new ImageView(win_img);
 			Text winner = new Text("YOU WIN!!!!");
 
-			Button PlayAgainBtn = new Button("Play again");
-			PlayAgainBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
-			PlayAgainBtn.setId("win-btn");
-			PlayAgainBtn.setMinWidth(250);
-
-			PlayAgainBtn.setOnMouseClicked(e -> {
-				callNext();
-			});
-
 			Button EndBtn = new Button("Exit game");
 			EndBtn.setMinWidth(250);
 			EndBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
@@ -50,7 +41,7 @@ public class DisplayWin extends SwitchView {
 
 			HBox winhbox = new HBox();
 			// EndBtn.setMinWidth(20);
-			winhbox.getChildren().addAll(PlayAgainBtn, EndBtn);
+			winhbox.getChildren().add(EndBtn);
 			winhbox.setSpacing(100);
 			winhbox.setAlignment(Pos.CENTER);
 			winbox.getChildren().addAll(win_imgview, winner, winhbox);
