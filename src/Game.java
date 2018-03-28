@@ -44,24 +44,14 @@ import javafx.stage.Stage;
 public class Game extends Application {
 	private abstract class SwitchView extends BorderPane {
 		private SwitchView next;
-		private int player;
 
 		public SwitchView(SwitchView next) throws FileNotFoundException {
 			this.next = next;
+			createGUI();
 		}
 
-		abstract void createGUI(int player) throws FileNotFoundException;
+		abstract void createGUI() throws FileNotFoundException;
 
-		protected void callNext(int n) {
-			try {
-				createGUI(n);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			getScene().setRoot(next);
-		}
-		
 		protected void callNext() {
 			getScene().setRoot(next);
 		}
@@ -71,15 +61,14 @@ public class Game extends Application {
 		public PlayGame(SwitchView next) throws FileNotFoundException {
 			super(next);
 		}
-
-		@Override
-		void createGUI(int player) throws FileNotFoundException {
+		
+		void createGameUI(int n) throws FileNotFoundException {
 			setManaged(true);
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color: rgba(6, 136, 148)");
 			HBox hb_pile = new HBox();
 			hb_pile.setSpacing(20);
-
+			
 			// Deck Declaration
 			Deck cardDeck = new Deck();
 			Deck discardPile = new Deck();
@@ -97,10 +86,8 @@ public class Game extends Application {
 			deck_imgview.setFitHeight(87);
 			Button deck_btn = new Button(null, deck_imgview);
 			deck_btn.setId("img-btn");
-			hb_pile.getChildren().add(deck_btn);
-
+			
 			// Player Array
-			int n = player;
 			Player[] players = new Player[n];
 			for (int i = 0; i < n; i++) {
 				players[i] = new Player("p" + i);
@@ -154,6 +141,33 @@ public class Game extends Application {
 			BorderPane.setMargin(hb_pile, new Insets(10, 0, 20, 0));
 
 		}
+
+		@Override
+		void createGUI() throws FileNotFoundException {
+			HBox choosePlayerNum = new HBox();
+			choosePlayerNum.setSpacing(20);
+			
+			for(int i =0;i<3;i++) {
+				int playernum=i+2;
+				FileInputStream choose_player_input = new FileInputStream("src/img/"+playernum+"p.png");
+				Image choose_player_img = new Image(choose_player_input);
+				ImageView choose_player_imgview = new ImageView(choose_player_img);
+				choose_player_imgview.setFitWidth(60);
+				choose_player_imgview.setFitHeight(87);
+				Button choose_player_btn = new Button(null, choose_player_imgview);
+				choose_player_btn.setId("img-btn");
+				choosePlayerNum.getChildren().add(choose_player_btn);
+				setCenter(choosePlayerNum);
+				
+				choose_player_btn.setOnAction(e -> {
+					try {
+						createGameUI(playernum);
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
+				});
+			}
+		}
 	}
 
 	private class MainMenu extends SwitchView {
@@ -163,7 +177,7 @@ public class Game extends Application {
 		}
 
 		@Override
-		void createGUI(int n) throws FileNotFoundException {
+		void createGUI() throws FileNotFoundException {
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color : rgb(69,39,160) ;-fx-font-size:50;-text-fill:black");
 
@@ -180,7 +194,9 @@ public class Game extends Application {
 			TwoPlayerBtn.setId("menu-btn");
 			TwoPlayerBtn.setMinWidth(250);
 
-
+			TwoPlayerBtn.setOnMouseClicked(e -> {
+				callNext();
+			});
 
 			menubox.getChildren().add(TwoPlayerBtn);
 
@@ -201,17 +217,7 @@ public class Game extends Application {
 			btnEnd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			btnEnd.setId("menu-btn");
 			btnEnd.setMinWidth(250);
-			TwoPlayerBtn.setOnMouseClicked(e -> {
-				callNext(2);
-			});
-			ThreePlayerBtn.setOnMouseClicked(e -> {
-				callNext(3);
-			});
-			FourPlayerBtn.setOnMouseClicked(e -> {
-				callNext(4);
-			});
 			btnEnd.setOnAction(e -> Platform.exit());
-
 
 			menubox.getChildren().add(btnEnd);
 			menubox.setAlignment(Pos.CENTER);
@@ -230,7 +236,7 @@ public class Game extends Application {
 		}
 
 		@Override
-		void createGUI(int n) throws FileNotFoundException {
+		void createGUI() throws FileNotFoundException {
 
 			setPrefSize(1024, 768);
 			setStyle("-fx-background-color : rgb(0,145,234) ;-fx-font-size:50;-text-fill:black");
@@ -458,8 +464,6 @@ public class Game extends Application {
 			p1HandCards.getChildren().add(imgbtn);
 		}
 		btn.setOnMouseClicked(e -> {
-			System.out.println(cardDeck.length());
-			discardPile.displayCards();
 			if (discardPile.length() > 20) {
 				for (int i = 20; i > 0; i--) {
 					cardDeck.push(discardPile.pop(discardPile.length() - 1));
@@ -773,7 +777,7 @@ public class Game extends Application {
 		SwitchView main = new MainMenu(game);
 		SwitchView win = new Win(main);
 
-		Scene scene = new Scene(main, 1600, 768);
+		Scene scene = new Scene(win, 1600, 768);
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("style.css");
 		primaryStage.setMinWidth(1024);
