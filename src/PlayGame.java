@@ -516,11 +516,17 @@ public class PlayGame extends SwitchView {
 				}
 			});
 		}
-
+	//Draw 4 Cards Function for 4 player
 	public void draw4(String color, Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards, Player p3,
 			FlowPane p3HandCards, Player p4, FlowPane p4HandCards, Deck cardDeck, Deck discardPile, HBox pile,
 			Button btn) {
 		setWildColor(discardPile, color);
+		try {
+			closeCards(p1, p1HandCards);
+		} catch (FileNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		try {
 			if (discardPile.atIndex(0).getSymbol().equals(new String("F"))) {
 				VBox challenge_box = new VBox();
@@ -597,10 +603,16 @@ public class PlayGame extends SwitchView {
 		}
 	}
 
-	// Draw 4 Cards Function
+	// Draw 4 Cards Function for 3 player
 	public void draw4(String color, Player p1, FlowPane p1HandCards, Player p2, FlowPane p2HandCards, Player p3,
 			FlowPane p3HandCards, Deck cardDeck, Deck discardPile, HBox pile, Button btn) {
 		setWildColor(discardPile, color);
+		try {
+			closeCards(p1, p1HandCards);
+		} catch (FileNotFoundException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		try {
 			if (discardPile.atIndex(0).getSymbol().equals(new String("F"))) {
 				VBox challenge_box = new VBox();
@@ -686,23 +698,26 @@ public class PlayGame extends SwitchView {
 		}
 	}
 
+	// Wild Color Card Function
 	public void setWildColor(Deck discardPile, String color) {
 		discardPile.getList().get(0).setColor(color);
 	}
 
+	// Check Game End for 4 player
 	public boolean checkWin(Player p1, Player p2, Player p3, Player p4) {
 		if (p1.getHandCards().isEmpty() || p2.getHandCards().isEmpty() || p3.getHandCards().isEmpty()
 				|| p4.getHandCards().isEmpty())
 			return true;
 		return false;
 	}
-	
+	// Check Game End for 3 player
 	public boolean checkWin(Player p1, Player p2, Player p3) {
 		if (p1.getHandCards().isEmpty() || p2.getHandCards().isEmpty() || p3.getHandCards().isEmpty())
 			return true;
 		return false;
 	}
 
+	//Close Player Card
 	public void closeCards(Player p, FlowPane pHandCards) throws FileNotFoundException {
 		pHandCards.getChildren().clear();
 		for (int i = 0; i < p.getHandCards().length(); i++) {
