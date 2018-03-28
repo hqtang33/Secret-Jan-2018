@@ -559,22 +559,29 @@ public class PlayGame extends SwitchView {
 		}
 		
 		
-		@Override
 		void createGUI() throws FileNotFoundException {
+			VBox chooseVbox=new VBox();
+			Text chooseP = new Text("Choose Player");
+			chooseVbox.getChildren().add(chooseP);
 			HBox choosePlayerNum = new HBox();
-			choosePlayerNum.setSpacing(20);
+			choosePlayerNum.setSpacing(120);
+			chooseVbox.setSpacing(80);
+			chooseP.setFill(Color.WHITE);
+			
+			setPrefSize(1024, 768);
+			setStyle("-fx-background-color : rgb(194,24,91) ;-fx-font-size:50;-text-fill:black");
+			
 			
 			for(int i =0;i<3;i++) {
 				int playernum=i+2;
 				FileInputStream choose_player_input = new FileInputStream("src/img/"+playernum+"p.png");
 				Image choose_player_img = new Image(choose_player_input);
 				ImageView choose_player_imgview = new ImageView(choose_player_img);
-				choose_player_imgview.setFitWidth(120);
-				choose_player_imgview.setFitHeight(174);
+				choose_player_imgview.setFitWidth(156);
+				choose_player_imgview.setFitHeight(226);
 				Button choose_player_btn = new Button(null, choose_player_imgview);
-				choose_player_btn.setId("img-btn");
+				choose_player_btn.setId("choose-btn");
 				choosePlayerNum.getChildren().add(choose_player_btn);
-				
 				
 				
 				choose_player_btn.setOnAction(e -> {
@@ -585,8 +592,10 @@ public class PlayGame extends SwitchView {
 					}
 				});
 			}
-			setCenter(choosePlayerNum);
+			chooseVbox.getChildren().add(choosePlayerNum);
+			setCenter(chooseVbox);
 			choosePlayerNum.setAlignment(Pos.CENTER);
+			chooseVbox.setAlignment(Pos.CENTER);
 
 		}
 	}

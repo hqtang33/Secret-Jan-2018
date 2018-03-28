@@ -44,9 +44,7 @@ import javafx.stage.Stage;
 public class Game extends Application {
 	
 	public static void main(String args[]) {
-
 		launch(args);
-
 	}
 
 	@Override
@@ -61,9 +59,10 @@ public class Game extends Application {
 		SwitchView win = new DisplayWin(null);
 		SwitchView game = new PlayGame(win);
 		SwitchView main = new MainMenu(game);
+		win.setNext(main);
 		
 
-		Scene scene = new Scene(win, 1600, 768);
+		Scene scene = new Scene(main, 1600, 768);
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add("style.css");
 		primaryStage.setMinWidth(1024);
