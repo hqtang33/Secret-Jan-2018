@@ -111,6 +111,7 @@ public class Game extends Application {
 				pVbox.getChildren().add(FlowPaneArray[i]);
 				pVbox.getChildren().add(pname);
 				pVbox.setMargin(pname, new Insets(10, 0, 20, 0));
+				
 				if (i == 0)
 					setBottom(pVbox);
 				else if (i == 1) {
