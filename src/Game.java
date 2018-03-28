@@ -153,12 +153,11 @@ public class Game extends Application {
 				FileInputStream choose_player_input = new FileInputStream("src/img/"+playernum+"p.png");
 				Image choose_player_img = new Image(choose_player_input);
 				ImageView choose_player_imgview = new ImageView(choose_player_img);
-				choose_player_imgview.setFitWidth(60);
-				choose_player_imgview.setFitHeight(87);
+				choose_player_imgview.setFitWidth(120);
+				choose_player_imgview.setFitHeight(174);
 				Button choose_player_btn = new Button(null, choose_player_imgview);
 				choose_player_btn.setId("img-btn");
 				choosePlayerNum.getChildren().add(choose_player_btn);
-				setCenter(choosePlayerNum);
 				
 				choose_player_btn.setOnAction(e -> {
 					try {
@@ -168,6 +167,9 @@ public class Game extends Application {
 					}
 				});
 			}
+			setCenter(choosePlayerNum);
+			choosePlayerNum.setAlignment(Pos.CENTER);
+
 		}
 	}
 
