@@ -16,8 +16,7 @@ public class Card implements Comparable<Card> {
 	private String symbol;
 	private ImageView cardImage;
 
-	public Card() {
-	};
+	public Card() {};
 
 	public Card(String color, String symbol) {
 		this.color = color;
@@ -41,11 +40,6 @@ public class Card implements Comparable<Card> {
 		this.symbol = symbol;
 	}
 
-	public void showCardInfo() {
-		System.out.println("Color: " + color);
-		System.out.println("Symbol: " + symbol);
-	}
-
 	public int compareTo(Card c) {
 		if ((this.color == c.getColor()) || (this.symbol == c.getSymbol())||this.getColor()=="W")
 			return 1;
@@ -66,10 +60,7 @@ public class Card implements Comparable<Card> {
 			} else {
 				return -1;
 			}
-		} else {
-			return -1;
-
-		}
+		} else { return -1; }
 
 	}
 
@@ -79,16 +70,16 @@ public class Card implements Comparable<Card> {
 		return false;
 	}
 
-	public int getIndex(List<String> list, String color) {
-
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).equals(color)) {
-				return i;
-			}
-		}
-		return -1;
-
-	}
+//	public int getIndex(List<String> list, String color) {
+//
+//		for (int i = 0; i < list.size(); i++) {
+//			if (list.get(i).equals(color)) {
+//				return i;
+//			}
+//		}
+//		return -1;
+//
+//	}
 
 	public void loadImage(String c, String r) {
 		FileInputStream inputstream;

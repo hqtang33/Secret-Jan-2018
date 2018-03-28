@@ -89,18 +89,6 @@ public class Deck {
 		return c.getColor() + "_" + c.getSymbol();
 	}
 
-	public int findIndexByName(String s) {
-		for (int i = 0; i < cardDeck.size(); i++) {
-			String temp = new String(cardDeck.get(i).getColor() + "-" + cardDeck.get(i).getSymbol());
-			// System.out.println(s + "==" +temp);
-			if (temp.equals(s)) {
-				System.out.print("ok");
-				return i;
-			}
-		}
-		return 999;
-	}
-
 	public List<Card> getList() {
 		return this.cardDeck;
 	}
@@ -108,6 +96,7 @@ public class Deck {
 	public void sort() {
 		Collections.sort(cardDeck, (c1, c2) -> c1.compareBigger(c2));
 	}
+
 	public boolean isEmpty() {
 
 		if (cardDeck.isEmpty())
@@ -115,6 +104,20 @@ public class Deck {
 		else
 			return false;
 
+	}
+
+	public boolean playableDeck(Card c) {
+	
+		for(int i=0;i<cardDeck.size();i++)
+	{
+		
+		if(cardDeck.get(i).checkPlayable(c))
+			return true;
+				
+		
+		
+	}
+		return false;
 	}
 
 }
