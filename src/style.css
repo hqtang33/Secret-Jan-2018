@@ -1,0 +1,70 @@
+#img-btn {
+	-fx-background-color: transparent;
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
+
+#img-btn:hover {
+	-fx-background-color: rgba(255,255,255,0.3);
+}
+
+#img-btn:pressed {
+	-fx-background-color: rgba(255,255,255,0.6);
+}
+#menu-btn {
+	-fx-background-color: rgb(255,255,255);
+	-fx-text-fill: rgb(216,27,96);
+	-fx-border-color:rgb(216,27,96);
+	-fx-border-width: 3px;
+	-fx-border-radius:10px;
+	-fx-border-insets:-3px;
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 15 25 15 25;
+}
+#menu-btn:hover {
+	-fx-background-color: rgb(216,27,96);
+	-fx-text-fill: rgb(255,255,255);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 15 25 15 25;
+}
+#win-btn {
+	-fx-background-color: rgb(255,255,255);
+	-fx-text-fill: rgb(245,124,0);
+	-fx-border-color:rgb(245,124,0);
+	-fx-border-width: 3px;
+	-fx-border-radius:10px;
+	-fx-border-insets:-3px;
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 15 25 15 25;
+}
+#win-btn:hover {
+	-fx-background-color: rgb(245,124,0);
+	-fx-text-fill: rgb(255,255,255);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 15 25 15 25;
+}
+#wild-card-wild {
+	-fx-background-color: transparent;
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
+#wild-card-blue {
+	-fx-background-color: rgba(79, 195, 247,0.7);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
+#wild-card-green {
+	-fx-background-color: rgba(105, 240, 174,0.7);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
+#wild-card-yellow {
+	-fx-background-color: rgba(255, 238, 88,0.7);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
+#wild-card-red {
+	-fx-background-color: rgba(244, 67, 54,0.7);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 5 5 5 5;
+}
