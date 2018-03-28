@@ -55,7 +55,7 @@ public class PlayGame extends SwitchView {
 			Player[] players = new Player[n];
 			for (int i = 0; i < n; i++) {
 				players[i] = new Player("p" + i);
-				for (int num = 0; num < 5; num++)
+				for (int num = 0; num < 1; num++)
 					players[i].drawCard(cardDeck);
 				players[i].getHandCards().sort();
 			}
@@ -582,7 +582,6 @@ public class PlayGame extends SwitchView {
 				Button choose_player_btn = new Button(null, choose_player_imgview);
 				choose_player_btn.setId("choose-btn");
 				choosePlayerNum.getChildren().add(choose_player_btn);
-				
 				
 				choose_player_btn.setOnAction(e -> {
 					try {

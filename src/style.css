@@ -68,3 +68,19 @@
 	-fx-background-radius: 5,5,4;
 	-fx-padding: 5 5 5 5;
 }
+<<<<<<< HEAD
+=======
+#choose-btn {
+	-fx-background-color: rgba(255,255,255,0.1);
+	-fx-background-radius: 5,5,4;
+	-fx-padding: 10 10 10 10;
+}
+
+#choose-btn:hover {
+	-fx-background-color: rgba(255,255,255,0.3);
+}
+
+#choose-btn:pressed {
+	-fx-background-color: rgba(255,255,255,0.6);
+}
+>>>>>>> branch 'master' of https://github.com/hqtang33/Secret-Jan-2018.git
