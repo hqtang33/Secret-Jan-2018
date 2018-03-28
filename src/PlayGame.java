@@ -486,15 +486,93 @@ public class PlayGame extends SwitchView {
 			setWildColor(discardPile, color);
 			try {
 				if (discardPile.atIndex(0).getSymbol().equals(new String("F"))) {
-					p2.drawCard(cardDeck);
-					p2.drawCard(cardDeck);
-					p2.drawCard(cardDeck);
-					p2.drawCard(cardDeck);
-					if (p1 != p3)
-						closeCards(p1, p1HandCards);
-					closeCards(p2, p2HandCards);
-					openCards(p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, p2, p2HandCards, cardDeck, discardPile,
-							pile, btn);
+					
+					VBox challenge_box = new VBox();
+					
+					Text challenge = new Text("Do you want to CHALLENGE?!!");
+					challenge.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+
+					Button YesBtn = new Button("YES!");
+					YesBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+					YesBtn.setId("win-btn");
+					YesBtn.setMinWidth(125);
+					
+					Button NoBtn = new Button("NO!");
+					NoBtn.setMinWidth(125);
+					NoBtn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
+					NoBtn.setId("win-btn");
+			
+					
+					HBox YesNoBox = new HBox();
+					YesNoBox.getChildren().addAll(YesBtn, NoBtn);
+					YesNoBox.setSpacing(30);
+					challenge_box.setSpacing(20);
+					YesNoBox.setAlignment(Pos.CENTER);
+					challenge_box.getChildren().addAll(challenge, YesNoBox);
+					
+					pile.getChildren().clear();
+					pile.getChildren().add(challenge_box);
+					challenge_box.setAlignment(Pos.CENTER);
+					
+					NoBtn.setOnMouseClicked(e->{
+						p2.drawCard(cardDeck);
+						p2.drawCard(cardDeck);
+						p2.drawCard(cardDeck);
+						p2.drawCard(cardDeck);
+
+						
+						
+						try {
+							if (p1 != p3)
+								closeCards(p1, p1HandCards);
+							closeCards(p2, p2HandCards);
+							openCards(p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, p2, p2HandCards, cardDeck, discardPile,
+									pile, btn);
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					});
+					
+					YesBtn.setOnMouseClicked(e -> {
+						if(p1.getHandCards().playableDeck(discardPile.atIndex(1))) {
+							p1.drawCard(cardDeck);
+							p1.drawCard(cardDeck);
+							p1.drawCard(cardDeck);
+							p1.drawCard(cardDeck);
+							try {
+								closeCards(p1, p1HandCards);
+								openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck, discardPile,
+										pile, btn);
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} else {
+							p2.drawCard(cardDeck);
+							p2.drawCard(cardDeck);
+							p2.drawCard(cardDeck);
+							p2.drawCard(cardDeck);
+							p2.drawCard(cardDeck);
+							p2.drawCard(cardDeck);
+							
+							
+							try {
+								if (p1 != p3)
+									closeCards(p1, p1HandCards);
+								closeCards(p2, p2HandCards);
+								openCards(p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, p2, p2HandCards, cardDeck, discardPile,
+										pile, btn);
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							
+							
+						}
+					});
+					
+					
 				} else {
 					openCards(p2, p2HandCards, p3, p3HandCards, p4, p4HandCards, p1, p1HandCards, cardDeck, discardPile,
 							pile, btn);

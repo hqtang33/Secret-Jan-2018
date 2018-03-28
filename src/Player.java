@@ -11,6 +11,10 @@ public class Player {
 		this.name = name;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
 	public void setNext(Player next) {
 		this.next = next;
 	}
